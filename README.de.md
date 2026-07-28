@@ -20,6 +20,11 @@ Status werden pro Projektverzeichnis gespeichert und angezeigt; mehrere Projekte
 
 Lade `AgentPulseSetup-<版本>.exe` herunter und führe es aus. Normale Benutzer müssen Node.js, npm, Python, BLE Bridge, PyInstaller oder Arduino-Werkzeuge nicht selbst installieren.
 
+Offizielle Download-Links:
+
+- [GitHub Releases](https://github.com/lzty634158-oss/agent-pulse-release/releases)
+- [Gitee Releases](https://gitee.com/lzty634158/agent-pulse-release/releases)
+
 Das Installationsprogramm richtet für den aktuellen Windows-Benutzer Folgendes ein:
 
 - Agent Pulse daemon, integrierte Node-Laufzeit, BLE Bridge und schwebendes Fenster installieren;
@@ -84,7 +89,20 @@ Es erkennt Ereignisse wie Sitzungsstart, Benutzereingabe, vor und nach Tool-Aufr
 
 > Codex Offline Sandbox kann den lokalen Loopback-Netzwerkzugriff blockieren; Agent Pulse synchronisiert den Status weiterhin durch Überwachung lokaler Statusdateien und ist nicht von diesem Netzwerkkanal abhängig.
 
-Wenn der Status nicht aktualisiert wird, installiere auf der Konfigurationsseite die entsprechenden Hooks erneut und starte dann Claude Code/Codex neu oder öffne eine neue Sitzung.
+#### Vertrauen und Konfiguration von Codex-Hooks
+
+Codex muss die Ausführung externer Command-Hooks erlauben, damit Agent Pulse Codex-Ereignisse empfangen kann. Wähle bei der ersten Installation oder wenn Codex eine Sicherheitsbestätigung für Hooks anzeigt, **Agent-Pulse-Hooks vertrauen/zulassen**; wenn du sie ablehnst oder ihnen nicht vertraust, führt Codex diese Befehle nicht aus und das Dashboard sowie die physische Leuchte ändern sich nicht entsprechend dem Codex-Status.
+
+Konfigurationsschritte:
+
+1. Öffne das Agent-Pulse-Dashboard und klicke auf „Konfiguration“.
+2. Klicke auf der Konfigurationsseite auf „Codex-Hooks installieren“.
+3. Vergewissere dich, dass `%USERPROFILE%\.codex\hooks.json` die Agent-Pulse-Hooks enthält; bei der Installation bleiben andere vorhandene Hooks erhalten.
+4. Starte Codex neu oder öffne eine neue Sitzung.
+5. Wenn Codex eine Bestätigung zum Vertrauen in bzw. Ausführen von Hooks anzeigt, wähle Vertrauen oder Zulassen.
+6. Sende eine Anfrage und löse einen Tool-Aufruf aus, um zu bestätigen, dass die Echtzeitereignisse im Dashboard den Codex-Status anzeigen.
+
+Wenn der Status nicht aktualisiert wird, überprüfe zuerst den Vertrauensstatus der Codex-Hooks, installiere dann die betreffenden Hooks auf der Konfigurationsseite erneut und starte Codex neu oder öffne eine neue Sitzung. Mehrfache Installationen häufen Agent-Pulse-Hooks nicht an; wenn du eine ältere Version verwendet hast und deutliche Verzögerungen feststellst, installiere die Hooks einmal erneut, um die Bereinigungsmigration abzuschließen.
 
 ## Hardware-Statuslicht
 
