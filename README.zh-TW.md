@@ -20,6 +20,11 @@ Agent Pulse 將 Claude Code 與 Codex 的工作狀態同步至 Windows 本機 Da
 
 下載並執行 `AgentPulseSetup-<版本>.exe`。一般使用者無須自行安裝 Node.js、npm、Python、BLE Bridge、PyInstaller 或 Arduino 工具。
 
+官方下載連結：
+
+- [GitHub Releases](https://github.com/lzty634158-oss/agent-pulse-release/releases)
+- [Gitee Releases](https://gitee.com/lzty634158/agent-pulse-release/releases)
+
 安裝程式會為目前 Windows 使用者：
 
 - 安裝 Agent Pulse daemon、內建 Node runtime、BLE Bridge 與懸浮視窗；
@@ -84,7 +89,20 @@ http://127.0.0.1:4321/?lang=zh
 
 > Codex Offline Sandbox 可能封鎖本機 loopback 網路；Agent Pulse 會透過本機狀態檔案監聽繼續同步狀態，不依賴該網路通道。
 
-如果狀態未更新，請在設定頁面重新安裝對應的 hooks，然後重新啟動 Claude Code/Codex 或開啟新工作階段。
+#### Codex hooks 信任與設定
+
+Codex 必須允許執行外部 command hooks，Agent Pulse 才能收到 Codex 事件。首次安裝或 Codex 顯示 hook 安全確認時，請選擇**信任/允許 Agent Pulse hooks**；如果拒絕或未信任，Codex 不會執行這些命令，Dashboard 和實體燈也不會隨 Codex 狀態變化。
+
+設定步驟：
+
+1. 開啟 Agent Pulse Dashboard，點選「設定」。
+2. 在設定頁面點選「安裝 Codex Hooks」。
+3. 確認 `%USERPROFILE%\.codex\hooks.json` 已包含 Agent Pulse hooks；安裝程序會保留其他現有 hooks。
+4. 重新啟動 Codex 或開啟新的工作階段。
+5. 當 Codex 彈出 hook 信任/執行確認時，選擇信任或允許。
+6. 提交一次請求並觸發工具呼叫，確認 Dashboard 的即時事件中出現 Codex 狀態。
+
+如果狀態未更新，請先確認 Codex 的 hook 信任狀態，再在設定頁面重新安裝對應的 hooks，然後重新啟動 Codex 或開啟新的工作階段。重複安裝不會累積 Agent Pulse hooks；若曾使用舊版本且發現明顯卡頓，可重新安裝一次 hooks 以完成清理遷移。
 
 ## 硬體狀態燈
 
