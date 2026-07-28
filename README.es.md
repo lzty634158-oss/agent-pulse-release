@@ -20,6 +20,11 @@ Los estados se guardan y muestran por directorio de proyecto; varios proyectos d
 
 Descarga y ejecuta `AgentPulseSetup-<版本>.exe`. Los usuarios normales no necesitan instalar por su cuenta Node.js, npm, Python, BLE Bridge, PyInstaller ni herramientas de Arduino.
 
+Enlaces oficiales de descarga:
+
+- [GitHub Releases](https://github.com/lzty634158-oss/agent-pulse-release/releases)
+- [Gitee Releases](https://gitee.com/lzty634158/agent-pulse-release/releases)
+
 El instalador, para el usuario actual de Windows:
 
 - instala Agent Pulse daemon, el entorno de ejecución de Node integrado, BLE Bridge y la ventana flotante;
@@ -84,7 +89,20 @@ Validación: abre una nueva sesión de Claude Code o Codex, envía una solicitud
 
 > Codex Offline Sandbox puede bloquear la red de loopback local; Agent Pulse continúa sincronizando el estado mediante la supervisión de archivos de estado locales, sin depender de ese canal de red.
 
-Si el estado no se actualiza, vuelve a instalar los hooks correspondientes desde la página de configuración y luego reinicia Claude Code/Codex o abre una nueva sesión.
+#### Confianza y configuración de los hooks de Codex
+
+Codex debe permitir la ejecución de hooks de comandos externos para que Agent Pulse pueda recibir los eventos de Codex. En la primera instalación o cuando Codex muestre una confirmación de seguridad para hooks, selecciona **confiar/permitir los hooks de Agent Pulse**; si los rechazas o no les das confianza, Codex no ejecutará estos comandos y el Dashboard y la luz física no cambiarán con el estado de Codex.
+
+Pasos de configuración:
+
+1. Abre el Dashboard de Agent Pulse y haz clic en «Configuración».
+2. En la página de configuración, haz clic en «Instalar hooks de Codex».
+3. Confirma que `%USERPROFILE%\.codex\hooks.json` contiene los hooks de Agent Pulse; la instalación conservará los demás hooks existentes.
+4. Reinicia Codex o abre una nueva sesión.
+5. Cuando Codex muestre una confirmación para confiar en los hooks o ejecutarlos, selecciona confiar o permitir.
+6. Envía una solicitud y desencadena una llamada a herramienta para confirmar que los eventos en tiempo real del Dashboard muestran el estado de Codex.
+
+Si el estado no se actualiza, primero confirma el estado de confianza de los hooks de Codex; después, vuelve a instalar los hooks correspondientes desde la página de configuración y reinicia Codex o abre una nueva sesión. Las instalaciones repetidas no acumulan hooks de Agent Pulse; si has usado una versión antigua y detectas una lentitud notable, vuelve a instalar los hooks una vez para completar la migración de limpieza.
 
 ## Luz de estado de hardware
 
