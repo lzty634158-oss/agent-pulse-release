@@ -20,6 +20,11 @@ Status is stored and displayed per project directory. Multiple projects on the s
 
 Download and run `AgentPulseSetup-<version>.exe`. End users do not need to install Node.js, npm, Python, BLE Bridge, PyInstaller, or Arduino tools separately.
 
+Official download links:
+
+- [GitHub Releases](https://github.com/lzty634158-oss/agent-pulse-release/releases)
+- [Gitee Releases](https://gitee.com/lzty634158/agent-pulse-release/releases)
+
 For the current Windows user, the installer:
 
 - installs the Agent Pulse daemon, bundled Node runtime, BLE Bridge, and floating widget;
@@ -84,7 +89,20 @@ To verify the integration, open a new Claude Code or Codex session, submit a pro
 
 > Codex Offline Sandbox can block local loopback networking. Agent Pulse continues to synchronize through local status-file watching and does not depend on that network channel.
 
-If status does not update, reinstall the relevant hooks from the configuration page, then restart Claude Code/Codex or open a new session.
+#### Codex hook trust and configuration
+
+Codex must be allowed to run external command hooks for Agent Pulse to receive Codex events. During the initial installation, or when Codex shows a hook security confirmation, choose to **trust/allow Agent Pulse hooks**. If you decline or do not trust them, Codex will not run these commands, and the Dashboard and physical light will not change with Codex status.
+
+Configuration steps:
+
+1. Open the Agent Pulse Dashboard and click "Configuration."
+2. On the configuration page, click "Install Codex Hooks."
+3. Confirm that `%USERPROFILE%\.codex\hooks.json` contains Agent Pulse hooks; installation preserves any other existing hooks.
+4. Restart Codex or open a new session.
+5. When Codex displays a hook trust/execution confirmation, choose Trust or Allow.
+6. Submit a request and trigger a tool call, then confirm that Codex status appears in the Dashboard's live events.
+
+If status does not update, first check Codex's hook trust status, then reinstall the relevant hooks from the configuration page and restart Codex or open a new session. Reinstalling does not accumulate Agent Pulse hooks. If you used an older version and notice significant lag, reinstall the hooks once to complete the cleanup migration.
 
 ## Physical status light
 
