@@ -20,6 +20,11 @@ Agent Pulse는 Claude Code와 Codex의 작업 상태를 Windows 로컬 Dashboard
 
 `AgentPulseSetup-<版本>.exe`를 다운로드하여 실행합니다. 일반 사용자는 Node.js, npm, Python, BLE Bridge, PyInstaller 또는 Arduino 도구를 직접 설치할 필요가 없습니다.
 
+공식 다운로드 링크:
+
+- [GitHub Releases](https://github.com/lzty634158-oss/agent-pulse-release/releases)
+- [Gitee Releases](https://gitee.com/lzty634158/agent-pulse-release/releases)
+
 설치 프로그램은 현재 Windows 사용자에 대해 다음을 수행합니다.
 
 - Agent Pulse daemon, 내장 Node runtime, BLE Bridge 및 플로팅 창을 설치합니다.
@@ -84,7 +89,20 @@ http://127.0.0.1:4321/?lang=zh
 
 > Codex Offline Sandbox는 로컬 loopback 네트워크를 차단할 수 있습니다. Agent Pulse는 로컬 상태 파일 감시를 통해 계속 상태를 동기화하며 이 네트워크 채널에 의존하지 않습니다.
 
-상태가 업데이트되지 않으면 구성 페이지에서 해당 hooks를 다시 설치한 후 Claude Code/Codex를 재시작하거나 새 세션을 여세요.
+#### Codex hooks 신뢰 및 구성
+
+Agent Pulse가 Codex 이벤트를 수신하려면 Codex가 외부 command hooks의 실행을 허용해야 합니다. 처음 설치할 때 또는 Codex가 hook 보안 확인을 표시할 때는 **Agent Pulse hooks 신뢰/허용**을 선택하세요. 거부하거나 신뢰하지 않으면 Codex는 이 명령을 실행하지 않으므로 Dashboard와 물리 상태등이 Codex 상태 변경을 반영하지 않습니다.
+
+구성 단계:
+
+1. Agent Pulse Dashboard를 열고 "구성"을 클릭합니다.
+2. 구성 페이지에서 "Codex Hooks 설치"를 클릭합니다.
+3. `%USERPROFILE%\.codex\hooks.json`에 Agent Pulse hooks가 포함되어 있는지 확인합니다. 설치 과정에서는 기존의 다른 hooks가 유지됩니다.
+4. Codex를 재시작하거나 새 세션을 엽니다.
+5. Codex가 hook 신뢰/실행 확인을 표시하면 신뢰 또는 허용을 선택합니다.
+6. 요청을 한 번 제출하고 도구 호출을 발생시켜 Dashboard의 실시간 이벤트에 Codex 상태가 표시되는지 확인합니다.
+
+상태가 업데이트되지 않으면 먼저 Codex의 hook 신뢰 상태를 확인하고, 구성 페이지에서 해당 hooks를 다시 설치한 후 Codex를 재시작하거나 새 세션을 여세요. 반복 설치해도 Agent Pulse hooks가 누적되지는 않습니다. 이전 버전을 사용했고 눈에 띄는 지연이 발생한다면 hooks를 한 번 다시 설치하여 정리 마이그레이션을 완료할 수 있습니다.
 
 ## 하드웨어 상태등
 
