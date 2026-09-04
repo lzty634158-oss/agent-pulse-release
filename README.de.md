@@ -4,6 +4,12 @@ Agent Pulse synchronisiert die Arbeitszustände von Claude Code und Codex mit ei
 
 Sprache: [English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Français](README.fr.md) | Deutsch | [Español](README.es.md)
 
+## Aktuelle Version
+
+Die aktuelle Quellcodeversion ist `0.4.1` (2026-08-14), die ESP32-Firmware bleibt bei `0.1.21+22`. Eine einzelne Leuchte behält das einfache Standardverhalten und folgt der neuesten Aufgabe. Bei mehreren Leuchten kann jede unabhängig der neuesten Aufgabe, einem Projekt oder einem Agent wie Claude Code, Codex, WorkBuddy oder CodeBuddy folgen und ein eigenes Lichtprofil verwenden.
+
+Diese Version zeigt außerdem alle verbundenen BLE- und USB-Geräte mit Verbindungs- und Akkustatus an, verhindert doppelte BLE-Bridge-Prozesse und kennzeichnet das schwebende Fenster mit Agent und Projekt der neuesten Aufgabe. Bluetooth unterstützt weiterhin Nahbereichsverbindung und systemgekoppelte Verbindung unter Windows. Updates verwenden zuerst Gitee und wechseln bei Fehlern automatisch zu GitHub. Einzelheiten stehen im [Änderungsprotokoll](CHANGELOG.md).
+
 ## Bedeutung der Statusfarben
 
 | Farbe | Übliche Bedeutung |
@@ -149,30 +155,29 @@ Der Schalter „Ton“ auf der Konfigurationsseite steuert die Pieptöne des Sum
 
 ### Verbindungsarten
 
-#### BLE-Verbindung (empfohlen)
+#### BLE-Nahbereichsverbindung (empfohlen)
 
-1. Versorge das Gerät mit Strom; wenn es längere Zeit nicht verbunden war, drücke die Taste kurz, damit es erneut Werbung sendet.
-2. Öffne das Dashboard und warte, bis der BLE-Status von Scannen/Verbinden auf Verbunden wechselt.
-3. Nach erfolgreicher Verbindung synchronisiert Agent Pulse automatisch den aktuellen Status mit dem physischen Licht.
+1. Trenne das USB-Datenkabel der Statusleuchte und schalte sie ein. Falls keine Werbung mehr gesendet wird, starte sie mit einem kurzen Tastendruck erneut.
+2. Öffne das Dashboard. Ohne gebundenes Gerät scannt Agent Pulse fortlaufend, bis automatisch oder manuell gebunden beziehungsweise der Scan angehalten wird.
+3. Bringe die gewünschte Leuchte in die Nähe des Bluetooth-Adapters dieses Computers. Die Liste zeigt Name, MAC/Gerätekennung, RSSI und Anzahl der Messwerte in Echtzeit.
+4. Automatische Bindung erfordert mindestens 3 Messwerte, ein RSSI von `-45 dBm` oder stärker und mindestens `8 dB` Vorsprung vor dem zweitstärksten Kandidaten. Falls unterschiedliche Empfangsstärken dies verhindern, wähle die Leuchte aus und klicke auf „Binden“.
 
-Das BLE-Symbol im Dashboard bedeutet im Allgemeinen: Blau für Scannen/Verbinden, Grün für kürzlich empfangene gültige Geräteinteraktionen, Grau für nicht verbunden und Rot für Verbindungsfehler. Blau ist nur der Status eines Softwaresymbols, nicht der einer physischen LED.
+Nach der Bindung endet der Scan und die Kennung wird lokal gespeichert. Künftige Starts verbinden nur diese Leuchte und wechseln nicht anhand der Signalstärke zu anderen Geräten. Zum Wechseln „Gerät vergessen“ auswählen und die Nahbereichs- oder manuelle Bindung erneut durchführen.
 
-Wenn das Gerät nicht gefunden wird, stelle sicher, dass es eingeschaltet ist und Werbung sendet, Windows-Bluetooth verfügbar ist, das Gerät nahe genug ist und nicht mehrere Agent-Pulse-/BLE-Bridge-Instanzen gleichzeitig laufen.
+Das BLE-Symbol ist blau beim Scannen/Verbinden, grün nach kürzlich gültiger Kommunikation, grau ohne Verbindung und rot bei Fehlern. Nach der Verbindung wird nur der aktuelle gültige Zustand synchronisiert; abgelaufene alte Lichtereignisse werden nicht erneut gesendet. Windows zeigt normalerweise die Bluetooth-MAC. macOS kann wegen der CoreBluetooth-Datenschutzregeln eine vom System vergebene UUID anzeigen; sie eignet sich für die lokale Bindung, ist aber nicht die Hardware-MAC.
 
-#### USB-Verbindung, Diagnose und Wiederherstellung
+Wenn kein Gerät erscheint, prüfe Stromversorgung und Werbung, System-Bluetooth, dass USB getrennt ist und keine weitere Agent-Pulse-/BLE-Bridge-Instanz läuft. Unter macOS muss beim ersten Start außerdem der Bluetooth-Zugriff erlaubt werden.
 
-USB kann für kabelgebundene Lichtsteuerung, das Auslesen von Geräteinformationen/Akkustand, Diagnose, Wiederherstellung sowie Firmware-Upgrades kompatibler Geräte verwendet werden. Verwende ein Datenkabel statt eines reinen Ladekabels und bestätige im Geräte-Manager, dass ein COM-Port erscheint.
+#### USB-Seriellverbindung, Auswahl und Wiederherstellung
 
-Die aktuelle Version filtert Kandidatengeräte anhand der Herstellerkennung des USB-Seriellanschlusses. Wenn mehrere ESP32- oder gängige USB-Seriellgeräte verbunden sind, gib den Zielport in der Befehlszeile ausdrücklich an, zum Beispiel:
+1. Verwende ein USB-Kabel mit Datenübertragung. Ein reines Ladekabel erzeugt keinen seriellen Port.
+2. Öffne im Dashboard den Bereich „USB seriell“. Windows verwendet `COM*`, macOS gewöhnlich `/dev/cu.usbmodem*` oder `/dev/cu.usbserial*`.
+3. Die automatische Standardauswahl verbindet nur das treiberlose AgentPulse-Gerät `VID:PID 303A:1001`. CH340, CP210x, FTDI und andere Adapter werden nicht automatisch geöffnet.
+4. Sind mehrere `303A:1001`-Geräte angeschlossen oder wird ein anderer kompatibler Adapter benötigt, prüfe Port und VID/PID in der Liste und wähle den Zielport manuell.
 
-```powershell
-agent-traffic-light-monitor device list
-agent-traffic-light-monitor device push --port COM3
-```
+Die manuelle Auswahl wird lokal gespeichert. Fehlt der gewählte Port, bleibt Agent Pulse offline und öffnet nicht unbemerkt einen anderen Port. Die automatische Auswahl kann jederzeit wieder aktiviert werden. Die Liste markiert Standard-, ausgewählte, verbundene und fehlende Ports; bei Firmwareunterstützung erscheinen Akku- und Ladestatus in der Kopfzeile.
 
-Verwende keine nicht zugehörigen seriellen Geräte als Ziel für die Agent-Pulse-Lichtsteuerung. Künftige Versionen werden zuerst eine `deviceInfo`-Anfrage an Kandidatenports senden und nur dann automatisch verbinden, wenn eine gültige Geräteantwort empfangen wird.
-
-Wenn das Gerät überhaupt keinen seriellen Port hat, überprüfe Kabel, Treiber und ob die Firmware USB CDC aktiviert hat. USB ist die bevorzugte Wiederherstellungsmethode nach dem ersten Flashen, einer Partitionsmigration oder einem fehlgeschlagenen OTA.
+USB hat Vorrang vor BLE: Eine USB-Verbindung pausiert BLE-Scan und -Verbindung; nach dem Trennen werden Scan oder Wiederverbindung zum gebundenen Gerät fortgesetzt. Wenn kein Port erscheint, prüfe Kabel, Treiber und USB-CDC-Firmware. USB ist der bevorzugte Wiederherstellungsweg für Erst-Flashen, Partitionsmigration oder nach einem OTA-Fehler.
 
 ## Schwebendes Fenster
 
@@ -274,7 +279,5 @@ Deaktiviere auf der Konfigurationsseite Benachrichtigungen für Abschluss/Fehler
 ## Hinweise
 
 - Dieses Dokument richtet sich an Benutzer des Windows-Installationspakets. Überprüfe vor dem produktiven Einsatz auf dem Zielcomputer und mit der Hardware Claude-/Codex-Hooks, BLE, schwebendes Fenster und Updateabläufe.
-- Mehrere Agent-Pulse-Geräte sollten derzeit nicht allein anhand desselben BLE-Namens automatisch unterschieden werden; künftige Mehrgeräteszenarien sollten eine eindeutige `deviceId`-Bindung verwenden, und RSSI eignet sich nur als Sortiergrundlage bei der ersten Erkennung.
+- Umgebungen mit mehreren Geräten verwenden eine dauerhaft gebundene eindeutige Gerätekennung. RSSI dient nur der ersten Nahbereichsauswahl und wechselt niemals eine bereits gebundene Leuchte. Unter Windows ist die Kennung normalerweise eine MAC, unter macOS möglicherweise eine CoreBluetooth-UUID.
 - Programmupdates und Firmware OTA sind unterschiedliche Abläufe: Programmupdates installieren die Windows-EXE; Firmware OTA schreibt nur das Anwendungsimage auf kompatible Geräte.
-
-
