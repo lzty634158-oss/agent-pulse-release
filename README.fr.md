@@ -4,6 +4,12 @@ Agent Pulse synchronise l’état de fonctionnement de Claude Code et Codex avec
 
 Langues : [English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | Français | [Deutsch](README.de.md) | [Español](README.es.md)
 
+## Version actuelle
+
+La version actuelle du code source est `0.4.1` (2026-08-14) et le firmware ESP32 reste en `0.1.21+22`. Un seul voyant conserve le fonctionnement simple et suit la tâche la plus récente. Avec plusieurs voyants, chacun peut suivre indépendamment la dernière tâche, un projet ou un agent tel que Claude Code, Codex, WorkBuddy ou CodeBuddy, et utiliser son propre profil lumineux.
+
+Cette version garde aussi visibles tous les appareils BLE et USB connectés avec leur état de connexion et de batterie, empêche les processus BLE Bridge en double et indique dans la fenêtre flottante l’agent et le projet de la tâche la plus récente. Bluetooth conserve la connexion de proximité et la connexion appairée sous Windows. Les mises à jour utilisent Gitee en priorité, puis GitHub automatiquement en cas d’échec. Consultez le [journal des modifications](CHANGELOG.md) pour les détails.
+
 ## Signification des états
 
 | Couleur | Signification courante |
@@ -149,30 +155,29 @@ L’interrupteur « Son » de la page de configuration contrôle les tonalités 
 
 ### Méthodes de connexion
 
-#### Connexion BLE (recommandée)
+#### Connexion BLE de proximité (recommandée)
 
-1. Mettez l’appareil sous tension ; s’il reste longtemps sans connexion, effectuez un appui court pour qu’il recommence à diffuser.
-2. Ouvrez le Dashboard et attendez que l’état BLE passe de recherche/connexion à connecté.
-3. Une fois la connexion établie, Agent Pulse synchronise automatiquement l’état actuel avec le voyant physique.
+1. Débranchez le câble de données USB du voyant et mettez-le sous tension. Si la diffusion est arrêtée, effectuez un appui court pour la relancer.
+2. Ouvrez le Dashboard. Sans appareil associé, Agent Pulse analyse en continu jusqu’à l’association automatique, l’association manuelle ou l’arrêt de l’analyse par l’utilisateur.
+3. Placez le voyant cible près de l’adaptateur Bluetooth de cet ordinateur. La liste affiche en temps réel le nom, l’adresse MAC/l’identifiant, le RSSI et le nombre d’échantillons.
+4. L’association automatique exige au moins 3 échantillons, un RSSI de `-45 dBm` ou plus fort et une avance d’au moins `8 dB` sur le deuxième candidat. Si les différences de réception empêchent cette détection, cliquez directement sur « Associer » pour l’appareil voulu.
 
-L’icône BLE du Dashboard signifie généralement : bleu pour recherche/connexion en cours, vert pour une interaction valide récente reçue de l’appareil, gris pour non connecté et rouge pour une erreur de connexion. Le bleu est uniquement l’état de l’icône logicielle, pas une LED physique.
+Après l’association, l’analyse s’arrête et l’identifiant est enregistré dans la configuration locale. Les démarrages suivants se connectent uniquement à ce voyant et ne changent pas d’appareil selon la puissance du signal. Pour le remplacer, cliquez sur « Oublier l’appareil », puis recommencez l’association de proximité ou manuelle.
 
-Si l’appareil est introuvable, vérifiez qu’il est sous tension et en diffusion, que le Bluetooth Windows est disponible, qu’il est suffisamment proche, et évitez d’exécuter simultanément plusieurs instances d’Agent Pulse/BLE Bridge.
+L’icône BLE est bleue pendant l’analyse/connexion, verte après une interaction valide récente, grise hors connexion et rouge en cas d’erreur. Après connexion, seul l’état actuel valide est synchronisé ; les anciens événements lumineux expirés ne sont pas rejoués. Windows affiche normalement l’adresse MAC Bluetooth. macOS peut afficher un UUID attribué par CoreBluetooth pour des raisons de confidentialité ; il permet une association locale stable, mais ce n’est pas l’adresse MAC matérielle.
 
-#### Connexion USB, diagnostic et récupération
+Si aucun appareil n’apparaît, vérifiez l’alimentation et la diffusion, le Bluetooth du système, l’absence de connexion USB et qu’aucune autre instance d’Agent Pulse/BLE Bridge ne fonctionne. Sur macOS, autorisez aussi l’accès Bluetooth lors de la première utilisation.
 
-L’USB peut servir au contrôle filaire du voyant, à la lecture des informations/de la batterie de l’appareil, au diagnostic, à la récupération ainsi qu’à la mise à niveau du firmware des appareils compatibles. Utilisez un câble de données plutôt qu’un câble de charge uniquement, et vérifiez qu’un port COM apparaît dans le Gestionnaire de périphériques.
+#### Connexion série USB, sélection et récupération
 
-La version actuelle filtre les appareils candidats selon l’identifiant du fabricant du port série USB ; si plusieurs ESP32 ou appareils série USB courants sont connectés, spécifiez explicitement le port cible dans la ligne de commande, par exemple :
+1. Utilisez un câble USB prenant en charge les données. Un câble de charge uniquement ne crée pas de port série.
+2. Ouvrez le panneau « Port série USB » du Dashboard. Windows utilise `COM*` ; macOS utilise généralement `/dev/cu.usbmodem*` ou `/dev/cu.usbserial*`.
+3. La sélection automatique par défaut ouvre uniquement le périphérique AgentPulse sans pilote `VID:PID 303A:1001`. Elle n’ouvre pas automatiquement les adaptateurs CH340, CP210x, FTDI ou autres.
+4. Si plusieurs périphériques `303A:1001` sont connectés, ou si un autre adaptateur compatible est nécessaire, vérifiez le port et le VID/PID dans la liste puis sélectionnez-le manuellement.
 
-```powershell
-agent-traffic-light-monitor device list
-agent-traffic-light-monitor device push --port COM3
-```
+La sélection manuelle est enregistrée localement. Si le port choisi disparaît, Agent Pulse reste hors ligne au lieu d’ouvrir silencieusement un autre port. Vous pouvez revenir à la sélection automatique. La liste indique les états par défaut, sélectionné, connecté et absent ; la batterie et la charge apparaissent aussi dans l’en-tête lorsque le firmware les prend en charge.
 
-N’utilisez pas de périphérique série non concerné comme cible du contrôle de voyant Agent Pulse. Dans une version ultérieure, une requête `deviceInfo` sera d’abord envoyée aux ports série candidats ; la connexion automatique ne sera établie qu’après réception d’une réponse d’appareil valide.
-
-Si l’appareil ne possède aucun port série, vérifiez le câble, les pilotes et si USB CDC est activé dans le firmware. L’USB est la méthode de récupération prioritaire pour le premier flashage, la migration de partition ou après un échec OTA.
+L’USB est prioritaire sur le BLE : une connexion USB suspend l’analyse et la connexion BLE ; leur fonctionnement reprend après la déconnexion USB. Si aucun port n’apparaît, vérifiez le câble, les pilotes et le firmware USB CDC. L’USB reste la méthode de récupération recommandée pour le premier flashage, la migration de partition ou après un échec OTA.
 
 ## Fenêtre flottante
 
@@ -274,5 +279,5 @@ Désactivez les rappels de fin/erreur/blocage dans la page de configuration, ou 
 ## Remarques
 
 - Ce document s’adresse aux utilisateurs du package d’installation Windows. Avant une utilisation en production, vérifiez les hooks Claude/Codex, le BLE, la fenêtre flottante et le processus de mise à jour sur l’ordinateur et le matériel cibles.
-- Plusieurs appareils Agent Pulse ne doivent actuellement pas être distingués automatiquement sur la seule base du même nom BLE ; les futurs scénarios multi-appareils devront utiliser une liaison `deviceId` unique, et RSSI ne convient que comme base de tri lors de la première découverte.
+- Les environnements multi-appareils utilisent un identifiant unique associé de façon persistante. Le RSSI ne sert qu’à la première sélection de proximité et ne change jamais un voyant déjà associé. Cet identifiant est généralement une adresse MAC sous Windows et peut être un UUID CoreBluetooth sous macOS.
 - La mise à jour du programme et l’OTA du firmware sont des processus différents : la mise à jour du programme installe un EXE Windows ; l’OTA du firmware écrit uniquement l’image d’application sur les appareils compatibles.
