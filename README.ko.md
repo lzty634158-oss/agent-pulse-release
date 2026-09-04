@@ -178,6 +178,8 @@ agent-traffic-light-monitor device push --port COM3
 
 Dashboard에서 “플로팅 표시등 열기” 또는 “플로팅 표시등 닫기”를 클릭하세요. 플로팅 창에는 현재 상태 색상, 프로젝트 이름, BLE 상태 및 사용할 수 있을 때 장치 배터리 잔량이 표시됩니다.
 
+![데스크톱 플로팅 창 (노란색 표시등 = 진행 중)](docs/screenshots/floating-window.png)
+
 이 창은 설치 버전의 daemon이 관리합니다. 플로팅 창 시작에 실패하더라도 Dashboard와 상태 동기화는 계속 작동할 수 있습니다.
 
 ## 프로그램 업데이트
