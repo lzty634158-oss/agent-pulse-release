@@ -178,6 +178,8 @@ Si l’appareil ne possède aucun port série, vérifiez le câble, les pilotes 
 
 Dans le Dashboard, cliquez sur « Ouvrir le voyant flottant » ou « Fermer le voyant flottant ». La fenêtre flottante affiche la couleur d’état actuelle, le nom du projet, l’état BLE et, lorsqu’il est disponible, le niveau de batterie de l’appareil.
 
+![Fenêtre flottante du bureau (lumière jaune = en cours)](docs/screenshots/floating-window.png)
+
 Elle est gérée par le daemon de la version installée ; même si le démarrage de la fenêtre flottante échoue, le Dashboard et la synchronisation d’état peuvent continuer à fonctionner.
 
 ## Mise à jour du programme
