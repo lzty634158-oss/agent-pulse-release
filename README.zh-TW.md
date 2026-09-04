@@ -1,8 +1,14 @@
 # Agent Pulse
 
-Agent Pulse 將 Claude Code 與 Codex 的工作狀態同步至 Windows 本機 Dashboard、懸浮視窗和 ESP32 實體三色燈，幫助您即使不盯著終端機，也能掌握 AI 程式設計工作階段的進度。
+Agent Pulse 將 Claude Code 與 Codex 的工作狀態同步至 Windows 或 macOS 本機 Dashboard、懸浮視窗和 ESP32 實體三色燈，幫助您即使不盯著終端機，也能掌握 AI 程式設計工作階段的進度。
 
 語言：[English](README.md) | [简体中文](README.zh-CN.md) | 繁體中文 | [日本語](README.ja.md) | [한국어](README.ko.md) | [Français](README.fr.md) | [Deutsch](README.de.md) | [Español](README.es.md)
+
+## 目前版本
+
+目前原始碼版本為 `0.4.1`（2026-08-14），ESP32 韌體版本仍為 `0.1.21+22`。單燈維持簡單的預設體驗並自動跟隨最新工作；連接多盞燈後，每盞燈可獨立跟隨最新工作、指定專案或 Claude Code/Codex/WorkBuddy/CodeBuddy 等指定 Agent，並可使用獨立燈光方案。
+
+本版本也會持續顯示每個已連接的藍牙或 USB 裝置及其連線、電量與充電狀態，避免重複 BLE Bridge 程序爭用裝置，並在懸浮視窗顯示最新工作所屬的 Agent 與專案。藍牙繼續支援近場自動連線與 Windows 系統配對連線。應用程式與韌體更新仍優先使用 Gitee，失敗後自動切換 GitHub。完整內容請參閱 [版本更新記錄](CHANGELOG.md)。
 
 ## 狀態含義
 
@@ -40,6 +46,10 @@ Agent Pulse 將 Claude Code 與 Codex 的工作狀態同步至 Windows 本機 Da
 
 安裝完成後，請重新啟動 Claude Code/Codex 或開啟新的工作階段，讓 hooks 重新載入。
 
+### macOS 安裝套件
+
+macOS 12 或更新版本使用依 CPU 架構區分的 `x86_64` 或 `arm64` PKG。正式套件使用 Developer ID 簽署、Apple 公證及票據裝訂；不要關閉 Gatekeeper 或 SIP。`0.3.0` 已正式提供重新簽署、公證的兩種架構專用 PKG，並包含新的裝置連線與更新來源邏輯。完整步驟請參閱 [macOS 安裝說明](macos-install/RELEASE_INSTALL.md)。
+
 ### 從原始碼/命令列安裝
 
 這是開發人員路徑，並非 Windows 安裝程式使用者的必要步驟。請參閱文末的[開發人員附錄](#開發人員附錄)。
@@ -72,18 +82,23 @@ Dashboard 僅監聽本機迴環位址，不會公開至區域網路。
 http://127.0.0.1:4321/?lang=zh
 ```
 
-可調整通知、卡住判定時間、各類事件的顏色/閃爍/呼吸效果、亮度和聲音等。`7900` 是 Dashboard，`4321` 是獨立設定頁面，兩者用途不同。
+可調整通知、卡住判定時間、各類事件的顏色/閃爍/呼吸效果、亮度和聲音等。「安裝 Claude Code Hooks」與「安裝 Codex Hooks」會自動識別 Windows 或 macOS 並使用對應安裝程式。`7900` 是 Dashboard，`4321` 是獨立設定頁面，兩者用途不同。
 
 ### Claude Code 與 Codex 整合
 
-安裝程式會將 Agent Pulse 的全域 hooks 合併至：
+安裝程式及設定頁面的 Hooks 按鈕會將 Agent Pulse 的全域 hooks 合併至：
 
 ```text
+Windows:
 %USERPROFILE%\.claude\settings.json
 %USERPROFILE%\.codex\hooks.json
+
+macOS:
+~/.claude/settings.json
+~/.codex/hooks.json
 ```
 
-會感知工作階段開始、使用者提交、工具呼叫前後、權限請求、停止和失敗等事件，並更新 Dashboard、懸浮視窗與硬體燈。您的其他 hooks 和設定會保留。
+會感知工作階段開始、使用者提交、工具呼叫前後、權限請求、停止和失敗等事件，並更新 Dashboard、懸浮視窗與硬體燈。修改前會建立時間戳記備份，既有 hooks 會保留，重複安裝不會累積 Agent Pulse hooks。
 
 驗證方式：開啟新的 Claude Code 或 Codex 工作階段，提交一次請求並觸發工具呼叫或權限請求，觀察 Dashboard 的即時事件和狀態顏色。
 
@@ -149,30 +164,29 @@ Codex 必須允許執行外部 command hooks，Agent Pulse 才能收到 Codex �
 
 ### 連線方式
 
-#### BLE 連線（建議）
+#### 藍牙近場連線（建議）
 
-1. 為裝置供電；若長時間未連線，短按一次讓它重新廣播。
-2. 開啟 Dashboard，等待 BLE 狀態從掃描/連線中變為已連線。
-3. 連線成功後，Agent Pulse 會自動將目前狀態同步至實體燈。
+1. 中斷狀態燈的 USB 資料線並開啟裝置；若已停止廣播，短按按鍵重新開始。
+2. 開啟 Dashboard。尚未繫結裝置時會持續掃描，直到自動繫結、手動繫結或使用者停止掃描。
+3. 將目標狀態燈靠近目前電腦的藍牙介面卡。清單會即時顯示名稱、MAC/裝置識別碼、RSSI 和取樣次數。
+4. 自動繫結要求至少 3 次取樣、RSSI 達到 `-45 dBm`，且比第二強候選裝置至少高 `8 dB`。若不同電腦的接收強度差異較大，可直接點擊「繫結」。
 
-Dashboard BLE 圖示一般表示：藍色為掃描/連線中，綠色為近期收到有效裝置互動，灰色為未連線，紅色為連線錯誤。藍色僅是軟體圖示狀態，不是實體 LED。
+繫結成功後會停止掃描並將識別碼儲存在本機設定中；後續只會自動連線這盞燈，不會依訊號強度切換其他裝置。更換狀態燈時請點擊「忘記裝置」，再重新近場或手動繫結。
 
-找不到裝置時，請確認裝置已供電並在廣播、Windows 藍牙可用、裝置距離夠近，並避免同時執行多個 Agent Pulse/BLE Bridge 執行個體。
+BLE 圖示藍色代表掃描/連線中、綠色代表近期有效互動、灰色代表未連線、紅色代表錯誤。連線後只同步目前有效狀態，不補送已過期的歷史燈光事件。Windows 通常顯示藍牙 MAC；受 CoreBluetooth 隱私機制限制，macOS 可能顯示系統 UUID，該 UUID 可供本機穩定繫結，但不是硬體 MAC。
 
-#### USB 連線、診斷與復原
+找不到裝置時，請確認裝置已開機並在廣播、系統藍牙可用、USB 未連線，且沒有同時執行其他 Agent Pulse/BLE Bridge。macOS 首次使用時還需核准藍牙權限。
 
-USB 可用於有線燈控、讀取裝置資訊/電量、診斷、復原，以及相容裝置的韌體升級。請使用資料線而非僅充電線，並在裝置管理員確認出現 COM 連接埠。
+#### USB 序列埠連線、選擇與復原
 
-目前版本依 USB 序列埠的廠商識別篩選候選裝置；如果連接了多個 ESP32 或常見 USB 序列埠裝置，請在命令列明確指定目標連接埠，例如：
+1. 使用支援資料傳輸的 USB 線連接狀態燈；僅充電線不會產生序列埠。
+2. 開啟 Dashboard 的「USB 序列埠」面板。Windows 顯示 `COM*`，macOS 通常顯示 `/dev/cu.usbmodem*` 或 `/dev/cu.usbserial*`。
+3. 預設「自動選擇」只連線 AgentPulse 免驅裝置 `VID:PID 303A:1001`，不會自動開啟 CH340、CP210x、FTDI 等其他序列埠。
+4. 同時連接多台 `303A:1001` 或需要其他相容介面卡時，請依序列埠和 VID/PID 在清單中手動選擇。
 
-```powershell
-agent-traffic-light-monitor device list
-agent-traffic-light-monitor device push --port COM3
-```
+手動選擇會儲存在本機設定中。指定序列埠不存在時會保持離線，不會靜默切換其他裝置；選擇「自動選擇」可恢復預設模式。清單會標示預設、已選擇、已連線和未連線狀態，韌體支援時頁面頂部也會顯示電量與充電狀態。
 
-不要將無關的序列埠裝置作為 Agent Pulse 燈控目標。後續版本會改為先向候選序列埠傳送 `deviceInfo` 請求，只有收到合法裝置回應後才自動連線。
-
-如果裝置完全沒有序列埠，請檢查線材、驅動程式以及韌體是否啟用了 USB CDC。USB 是首次燒錄、分割區遷移或 OTA 失敗後的優先復原方式。
+USB 優先於 BLE：USB 連線成功後會暫停 BLE 掃描與連線，USB 中斷後再恢復掃描或連線已繫結裝置。若清單中完全沒有裝置，請檢查資料線、驅動程式和 USB CDC 韌體；USB 也是首次燒錄、分割區遷移或 OTA 失敗後的優先復原方式。
 
 ## 懸浮視窗
 
@@ -273,6 +287,6 @@ agent-traffic-light-monitor daemon logs
 
 ## 注意事項
 
-- 本文面向 Windows 安裝程式使用者。生產使用前應先在目標電腦和硬體上驗證 Claude/Codex hooks、BLE、懸浮視窗和更新流程。
-- 多台 Agent Pulse 裝置目前不應僅靠相同 BLE 名稱自動區分；未來多裝置情境應使用唯一 `deviceId` 繫結，RSSI 僅適合作為首次發現時的排序依據。
-- 程式更新與韌體 OTA 是不同流程：程式更新安裝 Windows EXE；韌體 OTA 只寫入相容裝置的應用程式映像。
+- Windows 與 macOS 共用 daemon、Dashboard 和裝置協定；安裝程式、Hooks 腳本、BLE Sidecar、懸浮視窗和程式更新驗證依平台實作，正式使用前應在目標系統與硬體驗證完整流程。
+- 多裝置環境使用唯一裝置識別碼持久化繫結；RSSI 只參與首次近場選擇，不會切換已繫結的狀態燈。Windows 通常使用 MAC，macOS 可能使用 CoreBluetooth UUID。
+- 程式更新與韌體 OTA 是不同流程：Windows 使用 EXE，macOS 使用符合 CPU 架構且通過簽署、公證驗證的 PKG；韌體 OTA 只寫入相容裝置的應用程式映像。
