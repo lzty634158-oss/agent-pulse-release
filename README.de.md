@@ -178,6 +178,8 @@ Wenn das Gerät überhaupt keinen seriellen Port hat, überprüfe Kabel, Treiber
 
 Klicke im Dashboard auf „Schwebendes Licht öffnen“ oder „Schwebendes Licht schließen“. Das schwebende Fenster zeigt die aktuelle Statusfarbe, den Projektnamen, den BLE-Status und, sofern verfügbar, den Geräteakkustand.
 
+![Desktop-Schwebefenster (gelbes Licht = in Bearbeitung)](docs/screenshots/floating-window.png)
+
 Es wird vom daemon der Installationsversion verwaltet; selbst wenn das schwebende Fenster nicht gestartet werden kann, funktionieren Dashboard und Statussynchronisierung weiterhin.
 
 ## Programmupdate
