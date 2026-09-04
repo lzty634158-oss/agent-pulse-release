@@ -178,6 +178,8 @@ If no serial port appears at all, check the cable, driver, and whether the firmw
 
 Click **Show floating light** or **Hide floating light** in the Dashboard. The widget shows the current status color, project name, BLE state, and device battery information when available.
 
+![Desktop floating widget (yellow = in progress)](docs/screenshots/floating-window.png)
+
 The installed daemon manages the widget. If the widget cannot start, the Dashboard and status synchronization can still continue.
 
 ## Application updates
