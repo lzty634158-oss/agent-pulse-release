@@ -1,8 +1,14 @@
 # Agent Pulse
 
-Agent Pulse mirrors the working state of Claude Code and Codex to a local Windows Dashboard, floating widget, and physical ESP32 three-color status light, so you can follow an AI coding session without watching the terminal constantly.
+Agent Pulse mirrors the working state of Claude Code, Codex, WorkBuddy, CodeBuddy, and remote Ubuntu Collector sessions to a local Windows or macOS Dashboard, floating widget, and physical ESP32 three-color status light, so you can follow multiple AI coding agents without watching terminals constantly.
 
 Languages: English | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Français](README.fr.md) | [Deutsch](README.de.md) | [Español](README.es.md)
+
+## Current release
+
+The current source version is `0.4.1` (2026-08-14), with ESP32 firmware still pinned to `0.1.21+22`. This release focuses on WorkBuddy and CodeBuddy hooks plus Ubuntu server multi-agent collection/display. A single light keeps the simple default behavior and follows the latest task. When multiple lights are connected, each light can independently follow the latest task, a selected project, or a selected agent such as Claude Code, Codex, WorkBuddy, or CodeBuddy, and can use its own light profile.
+
+This release also keeps every connected BLE or USB device visible with its connection and battery state, prevents duplicate BLE bridge processes, and labels the floating widget with the agent and project for the latest task. Ubuntu Collector can publish remote agent status through MQTT for display in the Windows Dashboard alongside local agents. Bluetooth retains both proximity auto-connect and Windows system-paired connection. Application and firmware updates prefer Gitee and automatically fall back to GitHub. See the [release notes](CHANGELOG.md) for details.
 
 ## Status meanings
 
@@ -28,7 +34,7 @@ Official download links:
 For the current Windows user, the installer:
 
 - installs the Agent Pulse daemon, bundled Node runtime, BLE Bridge, and floating widget;
-- safely merges Claude Code and Codex hooks without replacing existing hooks;
+- safely merges Claude Code, Codex, WorkBuddy, and CodeBuddy hooks without replacing existing hooks;
 - configures startup on sign-in;
 - starts Agent Pulse and opens the Dashboard after installation.
 
@@ -38,7 +44,13 @@ The default installation directory is usually:
 %LOCALAPPDATA%\AgentPulse
 ```
 
-After installation, restart Claude Code/Codex or open a new session so hooks are reloaded.
+After installation, restart Claude Code, Codex, WorkBuddy, or CodeBuddy, or open a new session so hooks are reloaded.
+
+### macOS package
+
+macOS 12 or later uses architecture-specific `x86_64` or `arm64` PKG files. Production packages are signed with Developer ID, notarized by Apple, and stapled. Do not disable Gatekeeper or SIP; the user must approve administrator, Bluetooth, and notification prompts in the visible macOS UI.
+
+Version `0.3.0` publishes signed and notarized `x86_64` and `arm64` packages in the production update catalog, including the new device controls and Gitee-first update fallback. See the [macOS installation guide](macos-install/RELEASE_INSTALL.md).
 
 ### Install from source or the command line
 
@@ -72,20 +84,29 @@ Click **Configuration** in the Dashboard to open the configuration page. Its def
 http://127.0.0.1:4321/?lang=zh
 ```
 
-You can adjust notifications, the stuck-task threshold, colors/effects/brightness for each event, and sound settings. `7900` is the Dashboard; `4321` is a separate configuration page.
+You can adjust notifications, the stuck-task threshold, colors/effects/brightness for each event, and sound settings. The **Install Claude Code Hooks**, **Install Codex Hooks**, **Install WorkBuddy Hooks**, and **Install CodeBuddy Hooks** buttons detect Windows or macOS and run the matching platform installer. `7900` is the Dashboard; `4321` is a separate configuration page.
 
-### Claude Code and Codex integration
+### Claude Code, Codex, WorkBuddy, and CodeBuddy integration
 
-The installer merges Agent Pulse global hooks into:
+The installer and the configuration-page hook buttons merge Agent Pulse global hooks into:
 
 ```text
+Windows:
 %USERPROFILE%\.claude\settings.json
 %USERPROFILE%\.codex\hooks.json
+%USERPROFILE%\.workbuddy\settings.json
+%USERPROFILE%\.codebuddy\settings.json
+
+macOS:
+~/.claude/settings.json
+~/.codex/hooks.json
+~/.workbuddy/settings.json
+~/.codebuddy/settings.json
 ```
 
-It observes session starts, user prompts, tool calls, permission requests, stops, and failures, then updates the Dashboard, floating widget, and physical status light. Your other hooks and settings are preserved.
+It observes session starts, user prompts, tool calls, permission requests, stops, and failures, then updates the Dashboard, floating widget, and physical status light. A timestamped backup is created before changes, existing hooks are preserved, and repeated installation does not accumulate Agent Pulse entries.
 
-To verify the integration, open a new Claude Code or Codex session, submit a prompt, and trigger a tool call or permission request. Watch the Dashboard's live events and status color.
+To verify the integration, open a new Claude Code, Codex, WorkBuddy, or CodeBuddy session, submit a prompt, and trigger a tool call or permission request. Watch the Dashboard's live events and status color.
 
 > Codex Offline Sandbox can block local loopback networking. Agent Pulse continues to synchronize through local status-file watching and does not depend on that network channel.
 
@@ -97,7 +118,7 @@ Configuration steps:
 
 1. Open the Agent Pulse Dashboard and click "Configuration."
 2. On the configuration page, click "Install Codex Hooks."
-3. Confirm that `%USERPROFILE%\.codex\hooks.json` contains Agent Pulse hooks; installation preserves any other existing hooks.
+3. Confirm that `%USERPROFILE%\.codex\hooks.json` on Windows or `~/.codex/hooks.json` on macOS contains Agent Pulse hooks; installation preserves any other existing hooks.
 4. Restart Codex or open a new session.
 5. When Codex displays a hook trust/execution confirmation, choose Trust or Allow.
 6. Submit a request and trigger a tool call, then confirm that Codex status appears in the Dashboard's live events.
@@ -149,30 +170,39 @@ The **Sound** switch on the configuration page controls buzzer notifications and
 
 ### Connection methods
 
-#### BLE connection (recommended)
+#### Proximity BLE connection (recommended)
 
-1. Power on the device. If it has been disconnected for a long time, short-press the button to advertise again.
-2. Open the Dashboard and wait for the BLE state to change from scanning/connecting to connected.
-3. After connection, Agent Pulse automatically sends the current state to the physical light.
+Use this flow when binding a light for the first time:
 
-The Dashboard BLE icon normally means: blue for scanning/connecting, green for recent valid device interaction, gray for disconnected, and red for a connection error. Blue is only a software-icon state, not a physical LED.
+1. Disconnect the light's USB data cable and power on the device. If advertising has stopped, short-press the button to start it again.
+2. Open the Dashboard. When no device is bound, Agent Pulse scans continuously until it binds automatically, you bind manually, or you click **Stop scanning**.
+3. Move the intended light close to this computer's Bluetooth adapter. The device list shows its name, MAC/device identifier, RSSI, and sample count in real time.
+4. Automatic binding requires at least 3 samples, an RSSI of `-45 dBm` or stronger, and an `8 dB` lead over the second-strongest candidate. These checks reduce cross-connection risk when several computers and lights share one room.
+5. Bluetooth receivers differ. If the automatic criteria are not met, select the intended row and click **Bind**.
 
-If the device cannot be found, make sure it is powered on and advertising, Windows Bluetooth is available, the device is close enough, and no additional Agent Pulse/BLE Bridge instance is running.
+After binding, scanning stops and the identifier is stored in the local configuration. Future launches connect only to that light and do not switch devices based on signal strength. To replace it, click **Forget device**, then repeat proximity binding or bind a scan result manually.
 
-#### USB connection, diagnostics, and recovery
+The Dashboard BLE icon normally means: blue for scanning/connecting, green for recent valid device interaction, gray for disconnected, and red for a connection error. After connecting, Agent Pulse synchronizes only the current valid state and does not replay expired historical light events. Blue is only a software-icon state, not a physical LED.
 
-USB can provide wired light control, device-information/battery reads, diagnostics, recovery, and firmware updates for compatible devices. Use a data cable rather than a charge-only cable, and confirm that Windows shows a COM port in Device Manager.
+Windows normally exposes the Bluetooth MAC address. Because of Apple CoreBluetooth privacy behavior, macOS may show an OS-assigned UUID in the same field. That UUID can still provide stable local binding, but it is not the hardware MAC printed on the device or observed by another computer.
 
-The current version filters candidate ports by USB-serial vendor ID. If several ESP32 or common USB-serial devices are connected, explicitly select the target port from the command line, for example:
+If no device appears, verify that it is powered on and advertising, system Bluetooth is available, USB is disconnected, and no additional Agent Pulse/BLE Bridge instance is running. On macOS, approve Bluetooth access in the visible system prompt.
 
-```powershell
-agent-traffic-light-monitor device list
-agent-traffic-light-monitor device push --port COM3
-```
+#### USB serial connection, selection, and recovery
 
-Do not use an unrelated serial device as an Agent Pulse light-control target. A future version will send a `deviceInfo` request to candidate ports and connect automatically only after receiving a valid device response.
+USB provides wired light control, device-information and battery reads, diagnostics, recovery, and firmware updates for compatible devices:
 
-If no serial port appears at all, check the cable, driver, and whether the firmware enables USB CDC. USB is the preferred recovery path for first flashing, partition migration, or a failed OTA update.
+1. Connect the light with a data-capable USB cable. A charge-only cable does not create a serial port.
+2. Open the Dashboard's **USB serial** panel. Windows uses `COM*`; macOS normally uses `/dev/cu.usbmodem*` or `/dev/cu.usbserial*`.
+3. The default **Automatic selection** mode connects only to the driverless AgentPulse USB device with `VID:PID 303A:1001`. It does not automatically open CH340, CP210x, FTDI, or other serial adapters.
+4. If several `303A:1001` devices are attached, or another compatible adapter is required, inspect the port and VID/PID in the list and click **Select** beside the intended port.
+5. A manual selection is stored locally. If that port disappears, Agent Pulse remains offline instead of silently opening another serial device. Select **Automatic selection** to return to the default behavior.
+
+The list marks default, selected, connected, and missing ports. Its footer can connect/disconnect USB or refresh enumeration. After connection, the current port appears in the page header; battery and charging details also appear when supported by the firmware.
+
+USB takes priority over BLE. A successful USB connection pauses BLE scanning and connection so one light is not controlled over two transports. Disconnecting USB resumes scanning or reconnection to the bound BLE device.
+
+If the device does not appear in the list, check the cable, operating-system serial devices, drivers, and whether the firmware enables USB CDC. USB is the preferred recovery path for first flashing, partition migration, or a failed OTA update.
 
 ## Floating widget
 
@@ -239,11 +269,15 @@ By default, Agent Pulse does not upload source code, prompts, terminal output, o
 
 ### Dashboard does not open
 
-Confirm that you are visiting `http://127.0.0.1:7900`, not configuration port `4321`. With the installed version, try restarting Agent Pulse from the Start menu. Developers can check from a terminal:
+Confirm that you are visiting `http://127.0.0.1:7900`, not configuration port `4321`. On Windows, try restarting Agent Pulse from the Start menu. On macOS, check the user LaunchAgent:
 
 ```powershell
 agent-traffic-light-monitor daemon status
 agent-traffic-light-monitor daemon logs
+```
+
+```bash
+launchctl print "gui/$(id -u)/com.agentpulse.daemon"
 ```
 
 Do not run the source daemon and installed version at the same time. They compete for `7900`, `47801`, `7950`, and the BLE device.
@@ -252,7 +286,7 @@ Do not run the source daemon and installed version at the same time. They compet
 
 1. Open a new Claude Code/Codex session.
 2. Reinstall the relevant hooks from the configuration page.
-3. Confirm that `%USERPROFILE%\.claude\settings.json` or `%USERPROFILE%\.codex\hooks.json` still includes the Agent Pulse configuration.
+3. Confirm that `~/.claude/settings.json` or `~/.codex/hooks.json` still includes the Agent Pulse configuration (`~` maps to `%USERPROFILE%` on Windows).
 4. Claude Code users can run:
 
    ```powershell
@@ -261,11 +295,11 @@ Do not run the source daemon and installed version at the same time. They compet
 
 ### BLE does not connect
 
-Check device power, Windows Bluetooth, distance, and Dashboard state. Do not manually start an additional BLE Bridge because it can occupy `47801`.
+Check device power, system Bluetooth, distance, and Dashboard state. On macOS, approve Bluetooth access in the visible system prompt. Do not manually start an additional BLE Bridge because it can occupy `47801`.
 
 ### USB device is not found
 
-Use a data cable, check **Ports (COM & LPT)** in Device Manager, and explicitly choose the COM port if needed. If no COM port appears, check USB CDC firmware and drivers.
+Use a data cable. On Windows, check **Ports (COM & LPT)** in Device Manager. On macOS, check `/dev/cu.usbmodem*` or `/dev/cu.usbserial*`. If no serial device appears, check the cable, USB CDC firmware, and drivers.
 
 ### Notifications are too frequent
 
@@ -273,6 +307,6 @@ Disable completion/error/stuck notifications or adjust the stuck-task threshold 
 
 ## Notes
 
-- This document is for Windows-installer users. Before production use, verify Claude/Codex hooks, BLE, the floating widget, and update flow on the target computer and hardware.
-- Multiple Agent Pulse devices should not be distinguished solely by the same BLE name. A future multi-device setup should bind a unique `deviceId`; RSSI is appropriate only for ordering devices during first discovery.
-- Application updates and firmware OTA are different processes: application updates install a Windows EXE, while firmware OTA writes only a compatible device application image.
+- Windows and macOS share the daemon, Dashboard, and device protocol. Installers, hook scripts, BLE sidecars, widgets, and desktop-update validation remain platform-specific and must be verified on the target OS and hardware.
+- Multi-device environments use a persistent unique device identifier. RSSI participates only in first-time proximity selection and never switches an already bound light. The identifier is normally a MAC address on Windows and may be a CoreBluetooth UUID on macOS.
+- Application updates and firmware OTA are separate: Windows desktop updates use an EXE, macOS updates use an architecture-matched signed and notarized PKG, and firmware OTA writes only a compatible device application image.
