@@ -178,6 +178,8 @@ agent-traffic-light-monitor device push --port COM3
 
 在 Dashboard 點擊「開啟懸浮燈」或「關閉懸浮燈」。懸浮視窗會顯示目前狀態顏色、專案名稱、BLE 狀態及可用時的裝置電量。
 
+![桌面懸浮視窗（黃燈 = 進行中）](docs/screenshots/floating-window.png)
+
 它由安裝版 daemon 管理；即使懸浮視窗啟動失敗，Dashboard 和狀態同步仍可繼續運作。
 
 ## 程式更新
