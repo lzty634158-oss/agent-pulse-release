@@ -178,6 +178,8 @@ Si el dispositivo no tiene ningún puerto serie, revisa el cable, los controlado
 
 Haz clic en «Abrir luz flotante» o «Cerrar luz flotante» en el Dashboard. La ventana flotante muestra el color de estado actual, el nombre del proyecto, el estado BLE y, cuando está disponible, la batería del dispositivo.
 
+![Ventana flotante de escritorio (luz amarilla = en curso)](docs/screenshots/floating-window.png)
+
 La administra el daemon de la versión instalada; aunque no pueda iniciarse la ventana flotante, el Dashboard y la sincronización de estado pueden seguir funcionando.
 
 ## Actualización de programa
