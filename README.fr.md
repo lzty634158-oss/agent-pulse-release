@@ -4,7 +4,7 @@
 
 **Agent Pulse** est une lampe d'ambiance de bureau qui change de couleur en fonction de l'état de votre assistant de codage IA. Plus besoin de guetter le terminal : un coup d'œil à la lampe suffit pour savoir si une tâche est « en cours », « terminée » ou « en erreur ».
 
-- **Version logicielle actuelle** : 0.4.7
+- **Version logicielle actuelle** : 0.4.8
 - **Version du firmware de la lampe intégrée** : `0.1.24+25`
 - **Historique des versions** : voir [CHANGELOG.md](CHANGELOG.md)
 
@@ -59,8 +59,8 @@ La première fois, suivez ces 4 étapes dans l'ordre et vous verrez la lampe cha
 
 | Système | Téléchargement | Méthode d'installation |
 | --- | --- | --- |
-| Windows 10 1809+ / 11 | **[Télécharger `AgentPulseSetup-0.4.7.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | Double-cliquer pour installer ; démarre automatiquement à l'ouverture de session |
-| macOS (Apple Silicon / Intel) | **[Télécharger `AgentPulse-0.4.7.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | Double-cliquer et suivre l'assistant |
+| Windows 10 1809+ / 11 | **[Télécharger `AgentPulseSetup-0.4.8.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | Double-cliquer pour installer ; démarre automatiquement à l'ouverture de session |
+| macOS (Apple Silicon / Intel) | **[Télécharger `AgentPulse-0.4.8.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | Double-cliquer et suivre l'assistant |
 | Ubuntu (collecteur uniquement) | **[Télécharger le Collector](https://gitee.com/lzty634158/agent-pulse-linux-collector-release)** | Voir [Ubuntu Collector](#34-ubuntu-collector-optionnel) |
 
 > **Téléchargement lent en Chine ?** Utilisez le miroir Gitee (contenu identique à GitHub) :
@@ -158,7 +158,7 @@ Outre la couleur, vous pouvez régler le **mode d'affichage** de la lampe :
 
 ### 3.1 Installateur Windows
 
-**[Télécharger `AgentPulseSetup-0.4.7.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, double-cliquez pour exécuter et suivez les invites.
+**[Télécharger `AgentPulseSetup-0.4.8.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, double-cliquez pour exécuter et suivez les invites.
 
 > Les utilisateurs en Chine peuvent utiliser Gitee : <https://gitee.com/lzty634158/agent-pulse-release/releases>
 
@@ -170,7 +170,7 @@ Outre la couleur, vous pouvez régler le **mode d'affichage** de la lampe :
 
 ### 3.2 Installateur macOS
 
-**[Télécharger `AgentPulse-0.4.7.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, double-cliquez et suivez l'assistant. Ou installez via un prompt IA — la méthode par prompt IA est recommandée ; en cas d'échec, envoyez simplement l'erreur à l'IA pour la corriger.
+**[Télécharger `AgentPulse-0.4.8.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, double-cliquez et suivez l'assistant. Ou installez via un prompt IA — la méthode par prompt IA est recommandée ; en cas d'échec, envoyez simplement l'erreur à l'IA pour la corriger.
 
 > Les utilisateurs en Chine peuvent utiliser Gitee (Windows / macOS) : <https://gitee.com/lzty634158/agent-pulse-release/releases>
 > Dépôt macOS séparé : <https://gitee.com/lzty634158/agent-pulse-macos-release>
@@ -646,8 +646,8 @@ La page de configuration fournit deux outils de dépannage :
 | --- | --- |
 | **Le test envoie, mais les événements réels ne poussent pas** | Presque toujours l'une de ces deux raisons : <br>① Le « Activé » du canal n'est pas coché (cochez-le pour les nouveaux canaux) <br>② L'abonnement aux événements n'est pas correctement coché (voir [8.3](#83-abonnement-aux-événements-létape-la-plus-importante)). « Simuler la poussée » localise instantanément |
 | **Après enregistrement et rafraîchissement, l'interface revient en anglais** | Corrigé (0.4.6). Sur les anciennes versions, ajoutez `?lang=fr` dans la barre d'adresse pour ouvrir la page de configuration |
-| **Simuler la poussée affiche « échec de la simulation »** | La requête n'a pas atteint le nouveau backend. Veuillez **redémarrer Agent Pulse** (quittez complètement l'icône de la barre d'état puis démarrez), et assurez-vous que vous utilisez 0.4.7 |
-| **Les boutons test/supprimer/simuler ne réagissent pas** | Mettez à niveau vers 0.4.7 ; les anciennes versions ont un problème de script d'interface |
+| **Simuler la poussée affiche « échec de la simulation »** | La requête n'a pas atteint le nouveau backend. Veuillez **redémarrer Agent Pulse** (quittez complètement l'icône de la barre d'état puis démarrez), et assurez-vous que vous utilisez 0.4.8 |
+| **Les boutons test/supprimer/simuler ne réagissent pas** | Mettez à niveau vers 0.4.8 ; les anciennes versions ont un problème de script d'interface |
 | **L'invite indique URL invalide** | L'adresse Webhook doit commencer par `https://` |
 | **Feishu/DingTalk ne reçoivent pas** | Vérifiez que le secret est correct ; Feishu et DingTalk utilisent des algorithmes de signature différents, assurez-vous du bon type de plateforme |
 
