@@ -6,7 +6,7 @@ Idioma: [English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](
 
 ## Versión actual
 
-La versión actual del código fuente es `0.4.1` (2026-08-14) y el firmware ESP32 se mantiene en `0.1.21+22`. Una sola luz conserva el comportamiento sencillo y sigue la tarea más reciente. Con varias luces, cada una puede seguir de forma independiente la tarea más reciente, un proyecto o un agente como Claude Code, Codex, WorkBuddy o CodeBuddy, y utilizar su propio perfil de iluminación.
+La versión actual del código fuente es `0.4.7` (2026-09-15) y el firmware ESP32 se mantiene en `0.1.24+25`. Una sola luz conserva el comportamiento sencillo y sigue la tarea más reciente. Con varias luces, cada una puede seguir de forma independiente la tarea más reciente, un proyecto o un agente como Claude Code, Codex, WorkBuddy, CodeBuddy o Trae, y utilizar su propio perfil de iluminación.
 
 Esta versión también mantiene visibles todos los dispositivos BLE y USB conectados con su estado de conexión y batería, evita procesos BLE Bridge duplicados y muestra en la ventana flotante el agente y el proyecto de la tarea más reciente. Bluetooth conserva la conexión por proximidad y la conexión emparejada por Windows. Las actualizaciones usan primero Gitee y cambian automáticamente a GitHub si falla. Consulta el [historial de cambios](CHANGELOG.md) para obtener todos los detalles.
 
@@ -79,6 +79,8 @@ http://127.0.0.1:4321/?lang=zh
 ```
 
 Puedes ajustar las notificaciones, el tiempo de detección de bloqueo, los efectos de color/parpadeo/respiración de cada tipo de evento, el brillo, el sonido y más. `7900` es el Dashboard y `4321` es la página de configuración independiente; tienen finalidades distintas.
+
+**Puerta de seguridad (aviso):** Los asistentes Trae, WorkBuddy y CodeBuddy no tienen una ventana de permisos nativa. En la página de configuración, cambia a la pestaña del asistente correspondiente y define el color de la fila de evento **«Solicitud de permiso» (permission-request)** en cualquier valor distinto de «Apagado» para activar la puerta de seguridad (por defecto rojo + parpadeo). Entonces **cada llamada a una herramienta pedirá confirmación al usuario y encenderá la luz roja**, sea cual sea el comando ejecutado; no hace falta mantener una lista de comandos peligrosos. Al ponerlo en «Apagado» se desactiva la puerta.
 
 ### Integración con Claude Code y Codex
 
