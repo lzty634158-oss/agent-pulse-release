@@ -4,7 +4,7 @@
 
 **Agent Pulse** 是一盞會跟著你的 AI 程式助手狀態變化的桌面氛圍燈。你不用盯著終端機等結果——抬頭看一眼燈的顏色，就知道任務是「正在跑」「跑完了」還是「出錯了」。
 
-- **目前軟體版本**：0.4.7
+- **目前軟體版本**：0.4.8
 - **內建硬體燈韌體版本**：`0.1.24+25`
 - **版本更新記錄**：詳見 [CHANGELOG.md](CHANGELOG.md)
 
@@ -59,8 +59,8 @@ graph LR
 
 | 系統 | 下載 | 安裝方式 |
 | --- | --- | --- |
-| Windows 10 1809+ / 11 | **[點此下載 `AgentPulseSetup-0.4.7.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 雙擊安裝，裝好後開機自啟 |
-| macOS（Apple Silicon / Intel） | **[點此下載 `AgentPulse-0.4.7.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 雙擊依提示安裝 |
+| Windows 10 1809+ / 11 | **[點此下載 `AgentPulseSetup-0.4.8.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 雙擊安裝，裝好後開機自啟 |
+| macOS（Apple Silicon / Intel） | **[點此下載 `AgentPulse-0.4.8.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 雙擊依提示安裝 |
 | Ubuntu（僅採集器） | **[點此下載 Collector](https://gitee.com/lzty634158/agent-pulse-linux-collector-release)** | 見 [Ubuntu Collector](#34-ubuntu-collector可選) |
 
 > **國內用戶下載慢？** 用 Gitee 鏡像（內容與 GitHub 完全一致）：
@@ -158,7 +158,7 @@ flowchart TD
 
 ### 3.1 Windows 安裝包
 
-**[點此下載 `AgentPulseSetup-0.4.7.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，雙擊執行，依提示完成安裝。
+**[點此下載 `AgentPulseSetup-0.4.8.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，雙擊執行，依提示完成安裝。
 
 > 國內用戶可改用 Gitee：<https://gitee.com/lzty634158/agent-pulse-release/releases>
 
@@ -170,7 +170,7 @@ flowchart TD
 
 ### 3.2 macOS 安裝包
 
-**[點此下載 `AgentPulse-0.4.7.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，雙擊，依安裝精靈提示完成。或者透過 AI 提示詞來安裝，建議用 AI 提示詞安裝，出錯了直接發給 AI 解決。
+**[點此下載 `AgentPulse-0.4.8.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，雙擊，依安裝精靈提示完成。或者透過 AI 提示詞來安裝，建議用 AI 提示詞安裝，出錯了直接發給 AI 解決。
 
 > 國內用戶可改用 Gitee（Windows / macOS 都有）：<https://gitee.com/lzty634158/agent-pulse-release/releases>
 > macOS 另有獨立發布倉庫：<https://gitee.com/lzty634158/agent-pulse-macos-release>
@@ -646,8 +646,8 @@ flowchart TD
 | --- | --- |
 | **測試能發，但真實事件不推** | 幾乎總是這兩個原因之一：<br>① 通道的「啟用」沒勾選（新建通道請務必勾上）<br>② 事件訂閱沒勾對（見 [8.3](#83-事件訂閱最重要的一步)）。用「模擬推送」可立刻定位 |
 | **儲存後重新整理，介面變回英文** | 已修復（0.4.6）。若用舊版本，請在網址列加 `?lang=zh-TW` 訪問設定頁 |
-| **模擬推送提示「模擬失敗」** | 說明請求沒到達新版背景服務。請**重啟 Agent Pulse**（完全退出托盤圖示再啟動），確保執行的是 0.4.7 |
-| **測試/刪除/模擬按鈕點了沒反應** | 請升級到 0.4.7，舊版本存在介面腳本問題 |
+| **模擬推送提示「模擬失敗」** | 說明請求沒到達新版背景服務。請**重啟 Agent Pulse**（完全退出托盤圖示再啟動），確保執行的是 0.4.8 |
+| **測試/刪除/模擬按鈕點了沒反應** | 請升級到 0.4.8，舊版本存在介面腳本問題 |
 | **提示 URL 不合法** | Webhook 位址必須是 `https://` 開頭 |
 | **飛書/釘釘收不到** | 檢查密鑰是否填寫正確；飛書和釘釘的簽名演算法不同，請確認選對了平台類型 |
 
