@@ -84,7 +84,11 @@ Click **Configuration** in the Dashboard to open the configuration page. Its def
 http://127.0.0.1:4321/?lang=zh
 ```
 
+![Configuration page overview — Agent integration, music editor, Webhook notifications, and all sections](docs/screenshots/config-full.png)
+
 You can adjust notifications, the stuck-task threshold, colors/effects/brightness for each event, and sound settings. The **Install Claude Code Hooks**, **Install Codex Hooks**, **Install WorkBuddy Hooks**, **Install CodeBuddy Hooks**, and **Install Trae Hooks** buttons detect Windows or macOS and run the matching platform installer. `7900` is the Dashboard; `4321` is a separate configuration page.
+
+![Configuration page — Agent integration and Hooks install](docs/screenshots/config-events.png)
 
 For agents without a native permission prompt (Trae, WorkBuddy, CodeBuddy), the **Permission requested** event row in the event-alerts table is the security gate: set its color to anything but Off and every tool call will ask the user to confirm and turn the light red; set it to Off to disable the gate. This covers any command — no dangerous-command rules need to be maintained.
 
