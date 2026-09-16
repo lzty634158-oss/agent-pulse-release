@@ -4,7 +4,7 @@
 
 **Agent Pulse** は、AI コーディングアシスタントの状態に合わせて色が変化するデスクトップのアンビエントライトです。ターミナルを眺め続けなくても、ライトの色を見るだけでタスクが「実行中」「完了」「エラー」かがわかります。
 
-- **現在のソフトウェアバージョン**: 0.4.7
+- **現在のソフトウェアバージョン**: 0.4.8
 - **内蔵ハードウェアライトのファームウェアバージョン**: `0.1.24+25`
 - **バージョン履歴**: [CHANGELOG.md](CHANGELOG.md) を参照
 
@@ -59,8 +59,8 @@ graph LR
 
 | システム | ダウンロード | インストール方法 |
 | --- | --- | --- |
-| Windows 10 1809+ / 11 | **[`AgentPulseSetup-0.4.7.exe` をダウンロード](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | ダブルクリックでインストール、完了後自動起動 |
-| macOS（Apple Silicon / Intel） | **[`AgentPulse-0.4.7.pkg` をダウンロード](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | ダブルクリックでウィザードに従う |
+| Windows 10 1809+ / 11 | **[`AgentPulseSetup-0.4.8.exe` をダウンロード](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | ダブルクリックでインストール、完了後自動起動 |
+| macOS（Apple Silicon / Intel） | **[`AgentPulse-0.4.8.pkg` をダウンロード](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | ダブルクリックでウィザードに従う |
 | Ubuntu（コレクターのみ） | **[Collector をダウンロード](https://gitee.com/lzty634158/agent-pulse-linux-collector-release)** | [Ubuntu Collector](#34-ubuntu-collector任意) を参照 |
 
 > **中国国内でダウンロードが遅い場合**: Gitee ミラーを利用（GitHub と同一内容）:
@@ -158,7 +158,7 @@ flowchart TD
 
 ### 3.1 Windows インストーラ
 
-**[`AgentPulseSetup-0.4.7.exe` をダウンロード](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**、ダブルクリックで実行し、案内に従ってインストール。
+**[`AgentPulseSetup-0.4.8.exe` をダウンロード](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**、ダブルクリックで実行し、案内に従ってインストール。
 
 > 中国国内ユーザーは Gitee も利用可: <https://gitee.com/lzty634158/agent-pulse-release/releases>
 
@@ -170,7 +170,7 @@ flowchart TD
 
 ### 3.2 macOS インストーラ
 
-**[`AgentPulse-0.4.7.pkg` をダウンロード](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**、ダブルクリックでインストールウィザードに従う。または AI プロンプト経由でのインストールも可（推奨。失敗したら AI にエラーを投げて解決）。
+**[`AgentPulse-0.4.8.pkg` をダウンロード](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**、ダブルクリックでインストールウィザードに従う。または AI プロンプト経由でのインストールも可（推奨。失敗したら AI にエラーを投げて解決）。
 
 > 中国国内ユーザーは Gitee も利用可（Windows / macOS 両対応）: <https://gitee.com/lzty634158/agent-pulse-release/releases>
 > macOS 専用リポジトリ: <https://gitee.com/lzty634158/agent-pulse-macos-release>
@@ -646,8 +646,8 @@ flowchart TD
 | --- | --- |
 | **テストは届くが、実イベントは届かない** | ほぼ常に以下のいずれか: <br>① チャンネルの「有効」が未チェック（新規チャンネルは必ずチェック） <br>② イベント購読が正しくチェックされていない（[8.3](#83-イベント購読最も重要なステップ) 参照）。「シミュレーション送信」ですぐ特定 |
 | **保存後にリロードすると UI が英語に戻る** | 修正済（0.4.6）。旧バージョンならアドレスバーに `?lang=ja` を付けて設定ページを開く |
-| **シミュレーション送信で「シミュレーション失敗」** | リクエストが新バックエンドに届いていない。Agent Pulse を**再起動**（トレイアイコンを完全終了してから起動）し、0.4.7 であることを確認 |
-| **テスト/削除/シミュレーションのボタンが反応しない** | 0.4.7 へアップデートを。旧バージョンには UI スクリプトの問題あり |
+| **シミュレーション送信で「シミュレーション失敗」** | リクエストが新バックエンドに届いていない。Agent Pulse を**再起動**（トレイアイコンを完全終了してから起動）し、0.4.8 であることを確認 |
+| **テスト/削除/シミュレーションのボタンが反応しない** | 0.4.8 へアップデートを。旧バージョンには UI スクリプトの問題あり |
 | **URL が無効と表示** | Webhook アドレスは `https://` で始まる必要あり |
 | **Feishu / DingTalk が届かない** | シークレットが正しいか確認。Feishu と DingTalk は署名アルゴリズムが異なり、プラットフォーム種別が正しいか確認 |
 
