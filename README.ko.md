@@ -4,7 +4,7 @@
 
 **Agent Pulse**는 AI 코딩 어시스턴트의 상태에 맞춰 색이 변하는 데스크톱 앰비언트 라이트입니다. 터미널을 지켜보지 않아도 라이트 색만 봐도 작업이 "진행 중", "완료", "오류"인지 알 수 있습니다.
 
-- **현재 소프트웨어 버전**: 0.4.7
+- **현재 소프트웨어 버전**: 0.4.8
 - **내장 하드웨어 라이트 펌웨어 버전**: `0.1.24+25`
 - **버전 기록**: [CHANGELOG.md](CHANGELOG.md) 참조
 
@@ -59,8 +59,8 @@ graph LR
 
 | 시스템 | 다운로드 | 설치 방법 |
 | --- | --- | --- |
-| Windows 10 1809+ / 11 | **[`AgentPulseSetup-0.4.7.exe` 다운로드](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 더블클릭 설치, 완료 후 자동 시작 |
-| macOS (Apple Silicon / Intel) | **[`AgentPulse-0.4.7.pkg` 다운로드](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 더블클릭 후 안내 따르기 |
+| Windows 10 1809+ / 11 | **[`AgentPulseSetup-0.4.8.exe` 다운로드](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 더블클릭 설치, 완료 후 자동 시작 |
+| macOS (Apple Silicon / Intel) | **[`AgentPulse-0.4.8.pkg` 다운로드](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 더블클릭 후 안내 따르기 |
 | Ubuntu (수집기만) | **[Collector 다운로드](https://gitee.com/lzty634158/agent-pulse-linux-collector-release)** | [Ubuntu Collector](#34-ubuntu-collector-선택) 참조 |
 
 > **중국 내 다운로드가 느린 경우**: Gitee 미러 사용 (GitHub과 동일 내용):
@@ -158,7 +158,7 @@ flowchart TD
 
 ### 3.1 Windows 설치 파일
 
-**[`AgentPulseSetup-0.4.7.exe` 다운로드](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, 더블클릭 실행 후 안내에 따라 설치.
+**[`AgentPulseSetup-0.4.8.exe` 다운로드](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, 더블클릭 실행 후 안내에 따라 설치.
 
 > 중국 사용자는 Gitee도 가능: <https://gitee.com/lzty634158/agent-pulse-release/releases>
 
@@ -170,7 +170,7 @@ flowchart TD
 
 ### 3.2 macOS 설치 파일
 
-**[`AgentPulse-0.4.7.pkg` 다운로드](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, 더블클릭 후 설치 마법사 따르기. 또는 AI 프롬프트로 설치 가능(추천. 실패 시 AI에 오류를 보내 해결).
+**[`AgentPulse-0.4.8.pkg` 다운로드](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, 더블클릭 후 설치 마법사 따르기. 또는 AI 프롬프트로 설치 가능(추천. 실패 시 AI에 오류를 보내 해결).
 
 > 중국 사용자는 Gitee도 가능(Windows / macOS 모두): <https://gitee.com/lzty634158/agent-pulse-release/releases>
 > macOS 전용 저장소: <https://gitee.com/lzty634158/agent-pulse-macos-release>
@@ -646,8 +646,8 @@ flowchart TD
 | --- | --- |
 | **테스트는 오지만 실제 이벤트는 안 옴** | 거의 항상 다음 중 하나: <br>① 채널 "활성화" 미체크(새 채널은 반드시 체크) <br>② 이벤트 구독이 제대로 안 됨([8.3](#83-이벤트-구독가장-중요한-단계) 참조). "시뮬레이션 전송"으로 즉시 특정 |
 | **저장 후 새로고침하면 UI가 영어로 되돌아감** | 수정됨(0.4.6). 구버전이라면 주소창에 `?lang=ko` 붙여 설정 페이지 열기 |
-| **시뮬레이션 전송에서 "시뮬레이션 실패"** | 요청이 새 백엔드에 도달하지 않음. Agent Pulse **재시작**(트레이 아이콘 완전 종료 후 시작), 0.4.7 실행 확인 |
-| **테스트/삭제/시뮬레이션 버튼 무반응** | 0.4.7로 업데이트. 구버전은 UI 스크립트 문제 있음 |
+| **시뮬레이션 전송에서 "시뮬레이션 실패"** | 요청이 새 백엔드에 도달하지 않음. Agent Pulse **재시작**(트레이 아이콘 완전 종료 후 시작), 0.4.8 실행 확인 |
+| **테스트/삭제/시뮬레이션 버튼 무반응** | 0.4.8로 업데이트. 구버전은 UI 스크립트 문제 있음 |
 | **URL이 유효하지 않다고 표시** | Webhook 주소는 `https://`로 시작해야 함 |
 | **Feishu / DingTalk 안 옴** | 시크릿이 정확한지 확인. Feishu와 DingTalk는 서명 알고리즘이 다르니 플랫폼 종류가 맞는지 확인 |
 
