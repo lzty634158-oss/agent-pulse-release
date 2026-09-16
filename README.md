@@ -4,7 +4,7 @@
 
 **Agent Pulse** is a desktop ambient light that changes color with the status of your AI coding assistant. You no longer need to stare at the terminal waiting for results — a glance at the light tells you whether a task is "running", "done", or "errored".
 
-- **Current software version**: 0.4.7
+- **Current software version**: 0.4.8
 - **Built-in hardware light firmware version**: `0.1.24+25`
 - **Version history**: see [CHANGELOG.md](CHANGELOG.md)
 
@@ -59,8 +59,8 @@ Follow these 4 steps in order the first time, and you'll see the light change co
 
 | System | Download | Install method |
 | --- | --- | --- |
-| Windows 10 1809+ / 11 | **[Download `AgentPulseSetup-0.4.7.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | Double-click to install; runs on startup when done |
-| macOS (Apple Silicon / Intel) | **[Download `AgentPulse-0.4.7.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | Double-click and follow the prompts |
+| Windows 10 1809+ / 11 | **[Download `AgentPulseSetup-0.4.8.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | Double-click to install; runs on startup when done |
+| macOS (Apple Silicon / Intel) | **[Download `AgentPulse-0.4.8.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | Double-click and follow the prompts |
 | Ubuntu (collector only) | **[Download Collector](https://gitee.com/lzty634158/agent-pulse-linux-collector-release)** | See [Ubuntu Collector](#34-ubuntu-collector-optional) |
 
 > **Slow download in China?** Use the Gitee mirror (identical content to GitHub):
@@ -158,7 +158,7 @@ Besides color, you can set the light's **display mode**:
 
 ### 3.1 Windows installer
 
-**[Download `AgentPulseSetup-0.4.7.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, double-click to run, and follow the prompts.
+**[Download `AgentPulseSetup-0.4.8.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, double-click to run, and follow the prompts.
 
 > Users in China can use Gitee instead: <https://gitee.com/lzty634158/agent-pulse-release/releases>
 
@@ -170,7 +170,7 @@ Besides color, you can set the light's **display mode**:
 
 ### 3.2 macOS installer
 
-**[Download `AgentPulse-0.4.7.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, double-click, and follow the install wizard. Or install via an AI prompt — the AI-prompt method is recommended; if it fails, just send the error to the AI to fix.
+**[Download `AgentPulse-0.4.8.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, double-click, and follow the install wizard. Or install via an AI prompt — the AI-prompt method is recommended; if it fails, just send the error to the AI to fix.
 
 > Users in China can use Gitee instead (both Windows / macOS): <https://gitee.com/lzty634158/agent-pulse-release/releases>
 > macOS also has a separate repo: <https://gitee.com/lzty634158/agent-pulse-macos-release>
@@ -646,8 +646,8 @@ The config page provides two troubleshooting tools:
 | --- | --- |
 | **Test sends, but real events don't push** | Almost always one of two reasons:<br>① The channel's "Enabled" isn't checked (please check it for new channels)<br>② Event subscription isn't checked correctly (see [8.3](#83-event-subscription-the-most-important-step)). "Simulate push" locates it instantly |
 | **After saving and refreshing, UI reverts to English** | Fixed (0.4.6). On older versions, add `?lang=en` to the address bar to open the config page |
-| **Simulate push shows "simulation failed"** | Means the request didn't reach the new backend. Please **restart Agent Pulse** (fully quit the tray icon then start), and make sure you're running 0.4.7 |
-| **Test/delete/simulate buttons do nothing when clicked** | Upgrade to 0.4.7; older versions have a UI script issue |
+| **Simulate push shows "simulation failed"** | Means the request didn't reach the new backend. Please **restart Agent Pulse** (fully quit the tray icon then start), and make sure you're running 0.4.8 |
+| **Test/delete/simulate buttons do nothing when clicked** | Upgrade to 0.4.8; older versions have a UI script issue |
 | **Prompt says URL invalid** | Webhook address must start with `https://` |
 | **Feishu/DingTalk not receiving** | Check the secret is correct; Feishu and DingTalk use different signature algorithms, make sure the platform type is right |
 
