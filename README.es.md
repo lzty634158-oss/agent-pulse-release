@@ -4,7 +4,7 @@
 
 **Agent Pulse** es una luz de ambiente de escritorio que cambia según el estado de tu asistente de programación con IA. No hace falta mirar la terminal para esperar un resultado: basta con levantar la vista y ver el color de la luz para saber si la tarea «está en marcha», «ya terminó» o «hubo un error».
 
-- **Versión actual del software**: 0.4.7
+- **Versión actual del software**: 0.4.8
 - **Versión del firmware integrado de la luz hardware**: `0.1.24+25`
 - **Registro de cambios**: véase [CHANGELOG.md](CHANGELOG.md)
 
@@ -59,7 +59,7 @@ La primera vez, sigue estos 4 pasos en orden y verás la luz cambiar de color co
 
 | Sistema | Descarga | Forma de instalar |
 | --- | --- | --- |
-| Windows 10 1809+ / 11 | **[Descarga `AgentPulseSetup-0.4.7.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | Doble clic para instalar; al terminar se inicia solo con el arranque |
+| Windows 10 1809+ / 11 | **[Descarga `AgentPulseSetup-0.4.8.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | Doble clic para instalar; al terminar se inicia solo con el arranque |
 | macOS (Apple Silicon / Intel) | **[Descarga `AgentPulse-0.4.6.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | Doble clic e instala siguiendo las indicaciones |
 | Ubuntu (solo recopilador) | **[Descarga del Collector](https://gitee.com/lzty634158/agent-pulse-linux-collector-release)** | Véase [Collector para Ubuntu](#34-collector-para-ubuntu-opcional) |
 
@@ -158,7 +158,7 @@ Además del color, puedes configurar el **modo de visualización** de la luz:
 
 ### 3.1 Paquete de instalación para Windows
 
-**[Descarga `AgentPulseSetup-0.4.7.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, ejecuta con doble clic y completa la instalación siguiendo las indicaciones.
+**[Descarga `AgentPulseSetup-0.4.8.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, ejecuta con doble clic y completa la instalación siguiendo las indicaciones.
 
 > Los usuarios de China pueden usar Gitee: <https://gitee.com/lzty634158/agent-pulse-release/releases>
 
@@ -170,7 +170,7 @@ Además del color, puedes configurar el **modo de visualización** de la luz:
 
 ### 3.2 Paquete de instalación para macOS
 
-**[Descarga `AgentPulse-0.4.7.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, doble clic y completa según el asistente de instalación. O bien instala mediante un mensaje de IA; se recomienda instalar por mensaje de IA: si hay un error, lo envías directamente a la IA para resolverlo.
+**[Descarga `AgentPulse-0.4.8.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, doble clic y completa según el asistente de instalación. O bien instala mediante un mensaje de IA; se recomienda instalar por mensaje de IA: si hay un error, lo envías directamente a la IA para resolverlo.
 
 > Los usuarios de China pueden usar Gitee (tanto Windows como macOS): <https://gitee.com/lzty634158/agent-pulse-release/releases>
 > macOS tiene además un repositorio de publicación independiente: <https://gitee.com/lzty634158/agent-pulse-macos-release>
@@ -646,8 +646,8 @@ La página de configuración ofrece dos herramientas de diagnóstico:
 | --- | --- |
 | **La prueba llega, pero el evento real no** | Casi siempre por una de dos razones:<br>① La casilla «Activar» del canal no está marcada (marca siempre al crear canal)<br>② La suscripción de eventos no está bien marcada (véase [8.3](#83-suscripción-a-eventos-el-paso-más-importante)). Con «Envío simulado» se localiza al instante |
 | **Al guardar y recargar, la interfaz vuelve al inglés** | Ya corregido (0.4.6). Si usas una versión antigua, accede a la página de configuración añadiendo `?lang=zh` a la barra de direcciones |
-| **El envío simulado indica «fallo de simulación»** | Indica que la petición no llegó al servicio en segundo plano nuevo. **Reinicia Agent Pulse** (cierra del todo el icono de la bandeja y vuelve a iniciar), asegúrate de usar la 0.4.7 |
-| **Los botones de prueba/borrar/simular no responden** | Actualiza a 0.4.7; la versión antigua tiene un problema de script de interfaz |
+| **El envío simulado indica «fallo de simulación»** | Indica que la petición no llegó al servicio en segundo plano nuevo. **Reinicia Agent Pulse** (cierra del todo el icono de la bandeja y vuelve a iniciar), asegúrate de usar la 0.4.8 |
+| **Los botones de prueba/borrar/simular no responden** | Actualiza a 0.4.8; la versión antigua tiene un problema de script de interfaz |
 | **Avisa que la URL no es válida** | La dirección Webhook debe empezar por `https://` |
 | **Feishu/DingTalk no reciben** | Comprueba que la clave esté bien escrita; los algoritmos de firma de Feishu y DingTalk son distintos, confirma que elegiste el tipo de plataforma correcto |
 
