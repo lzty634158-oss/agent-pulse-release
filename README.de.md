@@ -6,7 +6,7 @@ Sprache: [English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文]
 
 ## Aktuelle Version
 
-Die aktuelle Quellcodeversion ist `0.4.1` (2026-08-14), die ESP32-Firmware bleibt bei `0.1.21+22`. Eine einzelne Leuchte behält das einfache Standardverhalten und folgt der neuesten Aufgabe. Bei mehreren Leuchten kann jede unabhängig der neuesten Aufgabe, einem Projekt oder einem Agent wie Claude Code, Codex, WorkBuddy oder CodeBuddy folgen und ein eigenes Lichtprofil verwenden.
+Die aktuelle Quellcodeversion ist `0.4.7` (2026-09-15), die ESP32-Firmware bleibt bei `0.1.24+25`. Eine einzelne Leuchte behält das einfache Standardverhalten und folgt der neuesten Aufgabe. Bei mehreren Leuchten kann jede unabhängig der neuesten Aufgabe, einem Projekt oder einem Agent wie Claude Code, Codex, WorkBuddy, CodeBuddy oder Trae folgen und ein eigenes Lichtprofil verwenden.
 
 Diese Version zeigt außerdem alle verbundenen BLE- und USB-Geräte mit Verbindungs- und Akkustatus an, verhindert doppelte BLE-Bridge-Prozesse und kennzeichnet das schwebende Fenster mit Agent und Projekt der neuesten Aufgabe. Bluetooth unterstützt weiterhin Nahbereichsverbindung und systemgekoppelte Verbindung unter Windows. Updates verwenden zuerst Gitee und wechseln bei Fehlern automatisch zu GitHub. Einzelheiten stehen im [Änderungsprotokoll](CHANGELOG.md).
 
@@ -79,6 +79,8 @@ http://127.0.0.1:4321/?lang=zh
 ```
 
 Du kannst Benachrichtigungen, die Zeit bis zur Erkennung eines festgefahrenen Zustands, Farbe/Blinken/Atmungseffekte für verschiedene Ereignisse, Helligkeit, Ton und weitere Optionen anpassen. `7900` ist das Dashboard, `4321` die eigenständige Konfigurationsseite; ihre Zwecke unterscheiden sich.
+
+**Sicherheitsschranke (Hinweis):** Die Assistenten Trae, WorkBuddy und CodeBuddy haben kein eigenes Berechtigungsfenster. Wechsle in der Konfigurationsseite auf die entsprechende Assistenten-Registerkarte und stelle die Farbe der Ereigniszeile **„Berechtigung angefordert“ (permission-request)** auf etwas anderes als „Aus“, um die Sicherheitsschranke zu aktivieren (standardmäßig Rot + Blinken). Dann wird **bei jedem Werkzeugaufruf der Benutzer um Bestätigung gebeten und die rote Leuchte eingeschaltet** – unabhängig davon, welcher Befehl ausgeführt wird; es muss keine Liste gefährlicher Befehle gepflegt werden. Auf „Aus“ gesetzt deaktiviert die Schranke.
 
 ### Integration von Claude Code und Codex
 
