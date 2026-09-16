@@ -1,20 +1,20 @@
-**English** | [한국어](./README.ko.md) | [日本語](./README.ja.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [Español](./README.es.md) | [Français](./README.fr.md) | [Deutsch](./README.de.md)
+[English](README.md) | [한국어](./README.ko.md) | [日本語](./README.ja.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [Español](./README.es.md) | [Français](./README.fr.md) | [Deutsch](./README.de.md)
 
 # Agent Pulse 使用教程
 
 **Agent Pulse** 是一盏会跟着你的 AI 编程助手状态变化的桌面氛围灯。你不用盯着终端等结果——抬头看一眼灯的颜色，就知道任务是「正在跑」「跑完了」还是「出错了」。
 
-- **当前软件版本**：0.4.6
+- **当前软件版本**：0.4.7
 - **内置硬件灯固件版本**：`0.1.24+25`
 - **版本更新记录**：详见 [CHANGELOG.md](CHANGELOG.md)
 
-**支持的 AI 编程助手**：Claude Code · Codex · WorkBuddy · CodeBuddy · Cursor · Copilot
+**支持的 AI 编程助手**：Claude Code · Codex · WorkBuddy · CodeBuddy · Cursor · Copilot · Trae
 
 ### 它是怎么工作的？
 
 ```mermaid
 graph LR
-    A["AI 编程助手<br/>Claude Code / Codex / Cursor<br/>Copilot / CodeBuddy / WorkBuddy"] -->|"Hooks 上报事件"| B["Agent Pulse 后台服务"]
+    A["AI 编程助手<br/>Claude Code / Codex / Cursor<br/>Copilot / CodeBuddy / WorkBuddy / Trae"] -->|"Hooks 上报事件"| B["Agent Pulse 后台服务"]
     B --> C["ESP32 实体灯<br/>蓝牙 / USB"]
     B --> D["Dashboard 网页<br/>127.0.0.1:7900"]
     B --> E["桌面悬浮窗"]
@@ -59,7 +59,7 @@ graph LR
 
 | 系统 | 下载 | 安装方式 |
 | --- | --- | --- |
-| Windows 10 1809+ / 11 | **[点此下载 `AgentPulseSetup-0.4.6.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 双击安装，装好后开机自启 |
+| Windows 10 1809+ / 11 | **[点此下载 `AgentPulseSetup-0.4.7.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 双击安装，装好后开机自启 |
 | macOS（Apple Silicon / Intel） | **[点此下载 `AgentPulse-0.4.6.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 双击按提示安装 |
 | Ubuntu（仅采集器） | **[点此下载 Collector](https://gitee.com/lzty634158/agent-pulse-linux-collector-release)** | 见 [Ubuntu Collector](#34-ubuntu-collector可选) |
 
@@ -76,13 +76,15 @@ graph LR
 Hooks 是 Agent Pulse 与你的 AI 助手之间的「信使」。**没有安装 Hooks，灯就不会有任何反应。**
 
 1. 浏览器打开配置页：<http://127.0.0.1:4321/?lang=zh>
-2. 找到你正在用的 AI 助手卡片（如 Claude Code / Cursor）
+2. 找到你正在用的 AI 助手卡片（如 Claude Code / Cursor / Trae）
 3. 点击卡片上的 **「安装 Hooks」** 按钮
 4. 安装成功后卡片会显示「已安装」
 
 ![配置页 - Agent 集成与 Hooks 安装](docs/screenshots/config-events.png)
 
-> **Codex 用户注意**：安装 Hooks 后，Codex 会把它列为「未受信任的项目」。你需要在 Codex 中把该项目标记为受信任，Hooks 才会真正生效。
+> **Codex 用户注意**：安装 Hooks 后，Codex 会把它列为「未受信任的项目」。你需要在 Codex 中设置找到‘钩子’配置项，把该项目标记为受信任，Hooks 才会真正生效。
+
+> **Claude Code 用户注意**：安装 Hooks 后，如果你在使用CCSwitch切换模型，CCSwitch会把我们的Hook配置给覆盖掉，这个时候需要你在我们配置页重新点击安装即可。
 
 > **小提示**：安装软件时，只会为**已经存在配置文件**的 AI 助手自动安装 Hooks。如果你后来又装了新的 AI 助手，回到配置页手动点一次安装即可。
 
@@ -156,7 +158,7 @@ flowchart TD
 
 ### 3.1 Windows 安装包
 
-**[点此下载 `AgentPulseSetup-0.4.6.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，双击运行，按提示完成安装。
+**[点此下载 `AgentPulseSetup-0.4.7.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，双击运行，按提示完成安装。
 
 > 国内用户可改用 Gitee：<https://gitee.com/lzty634158/agent-pulse-release/releases>
 
@@ -168,7 +170,7 @@ flowchart TD
 
 ### 3.2 macOS 安装包
 
-**[点此下载 `AgentPulse-0.4.6.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，双击，按安装向导提示完成。或者通过AI提示词来安装，建议用AI提示词安装，出错了直接发给AI解决。
+**[点此下载 `AgentPulse-0.4.7.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，双击，按安装向导提示完成。或者通过AI提示词来安装，建议用AI提示词安装，出错了直接发给AI解决。
 
 > 国内用户可改用 Gitee（Windows / macOS 都有）：<https://gitee.com/lzty634158/agent-pulse-release/releases>
 > macOS 另有独立发布仓库：<https://gitee.com/lzty634158/agent-pulse-macos-release>
@@ -179,7 +181,7 @@ macOS 详细安装说明见 [macos-install/RELEASE_INSTALL.md](macos-install/REL
 - **签名与公证**：安装包经过 Developer ID 签名并经过 Apple 公证，正常不会被 Gatekeeper 拦截
 - **首次启动**：可能弹出「允许网络连接」「允许蓝牙」等权限请求，请点「允许」
 
-### 3.3 程序更新
+### 3.3 程序更新   
 
 Agent Pulse 会自动检查更新：
 
@@ -416,8 +418,11 @@ Agent Pulse 提供两个网页界面：
 | **CodeBuddy** | 会话开始、提交提示、工具调用前/后、工具调用失败、请求权限、通知、任务失败、任务完成、会话结束 |
 | **Cursor** | 会话开始、提交提示、工具调用前/后、工具调用失败、请求权限、通知、任务失败、任务完成 |
 | **Copilot** | 会话开始、提交提示、工具调用后、任务完成、发生错误、会话结束 |
+| **Trae** | 会话开始、提交提示、工具调用前/后、请求权限、通知、任务完成 |
 
 > 配置页只会显示**你当前这个助手真正会触发**的事件，避免你配置了永远不会发生的事件。
+
+**权限闸门（安全提醒）**：Trae / WorkBuddy / CodeBuddy 这三个助手没有原生的权限弹窗。在配置页切到对应助手标签，把「请求权限（permission-request）」事件行的颜色设为非「关闭」即开启安全闸门（默认即为红色 + 闪烁），此时**每一次工具调用都会请用户确认并点亮红灯**，与具体执行什么命令无关，无需维护危险命令规则；设为「关闭」即停用闸门。
 
 **按助手分别配置**：切换到对应助手的标签页，就能为它单独设置事件配色；「默认」标签页的设置作为全局兜底，适用于所有助手。
 
@@ -641,8 +646,8 @@ flowchart TD
 | --- | --- |
 | **测试能发，但真实事件不推** | 几乎总是这两个原因之一：<br>① 通道的「启用」没勾选（新建通道请务必勾上）<br>② 事件订阅没勾对（见 [8.3](#83-事件订阅最重要的一步)）。用「模拟推送」可立刻定位 |
 | **保存后刷新，界面变回英文** | 已修复（0.4.6）。若用旧版本，请在地址栏加 `?lang=zh` 访问配置页 |
-| **模拟推送提示「模拟失败」** | 说明请求没到达新版后台。请**重启 Agent Pulse**（完全退出托盘图标再启动），确保运行的是 0.4.6 |
-| **测试/删除/模拟按钮点了没反应** | 请升级到 0.4.6，旧版本存在界面脚本问题 |
+| **模拟推送提示「模拟失败」** | 说明请求没到达新版后台。请**重启 Agent Pulse**（完全退出托盘图标再启动），确保运行的是 0.4.7 |
+| **测试/删除/模拟按钮点了没反应** | 请升级到 0.4.7，旧版本存在界面脚本问题 |
 | **提示 URL 不合法** | Webhook 地址必须是 `https://` 开头 |
 | **飞书/钉钉收不到** | 检查密钥是否填写正确；飞书和钉钉的签名算法不同，请确认选对了平台类型 |
 
@@ -662,6 +667,7 @@ Agent Pulse 支持 6 种 AI 编程助手，**可以同时安装多个**，互不
 | CodeBuddy | `codebuddy` |
 | Cursor | `cursor` |
 | Copilot | `copilot` |
+| Trae | `trae` |
 
 ### 9.2 每个助手独立配置
 
