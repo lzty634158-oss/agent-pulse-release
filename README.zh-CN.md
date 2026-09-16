@@ -4,7 +4,7 @@
 
 **Agent Pulse** 是一盏会跟着你的 AI 编程助手状态变化的桌面氛围灯。你不用盯着终端等结果——抬头看一眼灯的颜色，就知道任务是「正在跑」「跑完了」还是「出错了」。
 
-- **当前软件版本**：0.4.7
+- **当前软件版本**：0.4.8
 - **内置硬件灯固件版本**：`0.1.24+25`
 - **版本更新记录**：详见 [CHANGELOG.md](CHANGELOG.md)
 
@@ -59,7 +59,7 @@ graph LR
 
 | 系统 | 下载 | 安装方式 |
 | --- | --- | --- |
-| Windows 10 1809+ / 11 | **[点此下载 `AgentPulseSetup-0.4.7.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 双击安装，装好后开机自启 |
+| Windows 10 1809+ / 11 | **[点此下载 `AgentPulseSetup-0.4.8.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 双击安装，装好后开机自启 |
 | macOS（Apple Silicon / Intel） | **[点此下载 `AgentPulse-0.4.6.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 双击按提示安装 |
 | Ubuntu（仅采集器） | **[点此下载 Collector](https://gitee.com/lzty634158/agent-pulse-linux-collector-release)** | 见 [Ubuntu Collector](#34-ubuntu-collector可选) |
 
@@ -158,7 +158,7 @@ flowchart TD
 
 ### 3.1 Windows 安装包
 
-**[点此下载 `AgentPulseSetup-0.4.7.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，双击运行，按提示完成安装。
+**[点此下载 `AgentPulseSetup-0.4.8.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，双击运行，按提示完成安装。
 
 > 国内用户可改用 Gitee：<https://gitee.com/lzty634158/agent-pulse-release/releases>
 
@@ -170,7 +170,7 @@ flowchart TD
 
 ### 3.2 macOS 安装包
 
-**[点此下载 `AgentPulse-0.4.7.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，双击，按安装向导提示完成。或者通过AI提示词来安装，建议用AI提示词安装，出错了直接发给AI解决。
+**[点此下载 `AgentPulse-0.4.8.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，双击，按安装向导提示完成。或者通过AI提示词来安装，建议用AI提示词安装，出错了直接发给AI解决。
 
 > 国内用户可改用 Gitee（Windows / macOS 都有）：<https://gitee.com/lzty634158/agent-pulse-release/releases>
 > macOS 另有独立发布仓库：<https://gitee.com/lzty634158/agent-pulse-macos-release>
@@ -646,8 +646,8 @@ flowchart TD
 | --- | --- |
 | **测试能发，但真实事件不推** | 几乎总是这两个原因之一：<br>① 通道的「启用」没勾选（新建通道请务必勾上）<br>② 事件订阅没勾对（见 [8.3](#83-事件订阅最重要的一步)）。用「模拟推送」可立刻定位 |
 | **保存后刷新，界面变回英文** | 已修复（0.4.6）。若用旧版本，请在地址栏加 `?lang=zh` 访问配置页 |
-| **模拟推送提示「模拟失败」** | 说明请求没到达新版后台。请**重启 Agent Pulse**（完全退出托盘图标再启动），确保运行的是 0.4.7 |
-| **测试/删除/模拟按钮点了没反应** | 请升级到 0.4.7，旧版本存在界面脚本问题 |
+| **模拟推送提示「模拟失败」** | 说明请求没到达新版后台。请**重启 Agent Pulse**（完全退出托盘图标再启动），确保运行的是 0.4.8 |
+| **测试/删除/模拟按钮点了没反应** | 请升级到 0.4.8，旧版本存在界面脚本问题 |
 | **提示 URL 不合法** | Webhook 地址必须是 `https://` 开头 |
 | **飞书/钉钉收不到** | 检查密钥是否填写正确；飞书和钉钉的签名算法不同，请确认选对了平台类型 |
 
