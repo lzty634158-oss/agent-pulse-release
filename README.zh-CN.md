@@ -4,17 +4,17 @@
 
 **Agent Pulse** 是一盏会跟着你的 AI 编程助手状态变化的桌面氛围灯。你不用盯着终端等结果——抬头看一眼灯的颜色，就知道任务是「正在跑」「跑完了」还是「出错了」。
 
-- **当前软件版本**：0.4.8
-- **内置硬件灯固件版本**：`0.1.24+25`
+- **当前软件版本**：0.5.1
+- **内置硬件灯固件版本**：`0.2.0+26`
 - **版本更新记录**：详见 [CHANGELOG.md](CHANGELOG.md)
 
-**支持的 AI 编程助手**：Claude Code · Codex · WorkBuddy · CodeBuddy · Cursor · Copilot · Trae
+**支持的 AI 编程助手**：Claude Code · Codex · WorkBuddy · CodeBuddy · Cursor · Copilot · Trae · OpenClaw · Qoder
 
 ### 它是怎么工作的？
 
 ```mermaid
 graph LR
-    A["AI 编程助手<br/>Claude Code / Codex / Cursor<br/>Copilot / CodeBuddy / WorkBuddy / Trae"] -->|"Hooks 上报事件"| B["Agent Pulse 后台服务"]
+    A["AI 编程助手<br/>Claude Code / Codex / Cursor<br/>Copilot / CodeBuddy / WorkBuddy / Trae<br/>OpenClaw / Qoder"] -->|"Hooks 上报事件"| B["Agent Pulse 后台服务"]
     B --> C["ESP32 实体灯<br/>蓝牙 / USB"]
     B --> D["Dashboard 网页<br/>127.0.0.1:7900"]
     B --> E["桌面悬浮窗"]
@@ -59,8 +59,8 @@ graph LR
 
 | 系统 | 下载 | 安装方式 |
 | --- | --- | --- |
-| Windows 10 1809+ / 11 | **[点此下载 `AgentPulseSetup-0.4.8.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 双击安装，装好后开机自启 |
-| macOS（Apple Silicon / Intel） | **[点此下载 `AgentPulse-0.4.6.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 双击按提示安装 |
+| Windows 10 1809+ / 11 | **[点此下载 `AgentPulseSetup-0.4.X.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 双击安装，装好后开机自启 |
+| macOS（Apple Silicon / Intel） | **[点此下载 `AgentPulse-0.4.X.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | 双击按提示安装 |
 | Ubuntu（仅采集器） | **[点此下载 Collector](https://gitee.com/lzty634158/agent-pulse-linux-collector-release)** | 见 [Ubuntu Collector](#34-ubuntu-collector可选) |
 
 > **国内用户下载慢？** 用 Gitee 镜像（内容与 GitHub 完全一致）：
@@ -94,6 +94,11 @@ Hooks 是 Agent Pulse 与你的 AI 助手之间的「信使」。**没有安装 
 | --- | --- | --- |
 | **蓝牙**（推荐） | 灯放在桌面上，不想插线 | 长按灯上按键 2 秒开机 → 灯进入绿灯呼吸（等待连接）→ 在配置页点「扫描并绑定」→ **灯离电脑 1 米内**完成绑定 **【说明：近场通讯根据信号强度大于-45db会自动连接灯并完成绑定，其他无法搜索到可以选择系统配对菜单完成配对连接】**|
 | **USB** | 想边用边充电，或蓝牙干扰大 | 用数据线连接灯与电脑 → 在配置页选择对应串口，**USB 连接优先级高于蓝牙，连上USB蓝牙会自动断开，断开USB蓝牙自动恢复广播连接** |
+
+> **温馨提示：** 
+
+> *蓝牙连接和USB只有第一次需要配置操作下，后面第二次开机都会自动连接，无需再重复此步骤。*
+
 
 ### 步骤 4：验证是否成功
 
@@ -158,7 +163,7 @@ flowchart TD
 
 ### 3.1 Windows 安装包
 
-**[点此下载 `AgentPulseSetup-0.4.8.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，双击运行，按提示完成安装。
+**[点此下载 `AgentPulseSetup-0.5.1.exe`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，双击运行，按提示完成安装。
 
 > 国内用户可改用 Gitee：<https://gitee.com/lzty634158/agent-pulse-release/releases>
 
@@ -170,7 +175,7 @@ flowchart TD
 
 ### 3.2 macOS 安装包
 
-**[点此下载 `AgentPulse-0.4.8.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，双击，按安装向导提示完成。或者通过AI提示词来安装，建议用AI提示词安装，出错了直接发给AI解决。
+**[点此下载 `AgentPulse-0.5.1.pkg`](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**，双击，按安装向导提示完成。或者通过AI提示词来安装，建议用AI提示词安装，出错了直接发给AI解决。
 
 > 国内用户可改用 Gitee（Windows / macOS 都有）：<https://gitee.com/lzty634158/agent-pulse-release/releases>
 > macOS 另有独立发布仓库：<https://gitee.com/lzty634158/agent-pulse-macos-release>
@@ -419,6 +424,8 @@ Agent Pulse 提供两个网页界面：
 | **Cursor** | 会话开始、提交提示、工具调用前/后、工具调用失败、请求权限、通知、任务失败、任务完成 |
 | **Copilot** | 会话开始、提交提示、工具调用后、任务完成、发生错误、会话结束 |
 | **Trae** | 会话开始、提交提示、工具调用前/后、请求权限、通知、任务完成 |
+| **OpenClaw** | 会话开始、提交提示、任务完成、会话结束 |
+| **Qoder** | 会话开始、提交提示、工具调用前/后、工具调用失败、请求权限、权限被拒绝、通知、任务完成、任务失败 |
 
 > 配置页只会显示**你当前这个助手真正会触发**的事件，避免你配置了永远不会发生的事件。
 
@@ -646,8 +653,8 @@ flowchart TD
 | --- | --- |
 | **测试能发，但真实事件不推** | 几乎总是这两个原因之一：<br>① 通道的「启用」没勾选（新建通道请务必勾上）<br>② 事件订阅没勾对（见 [8.3](#83-事件订阅最重要的一步)）。用「模拟推送」可立刻定位 |
 | **保存后刷新，界面变回英文** | 已修复（0.4.6）。若用旧版本，请在地址栏加 `?lang=zh` 访问配置页 |
-| **模拟推送提示「模拟失败」** | 说明请求没到达新版后台。请**重启 Agent Pulse**（完全退出托盘图标再启动），确保运行的是 0.4.8 |
-| **测试/删除/模拟按钮点了没反应** | 请升级到 0.4.8，旧版本存在界面脚本问题 |
+| **模拟推送提示「模拟失败」** | 说明请求没到达新版后台。请**重启 Agent Pulse**（完全退出托盘图标再启动），确保运行的是 0.5.1 |
+| **测试/删除/模拟按钮点了没反应** | 请升级到 0.5.1，旧版本存在界面脚本问题 |
 | **提示 URL 不合法** | Webhook 地址必须是 `https://` 开头 |
 | **飞书/钉钉收不到** | 检查密钥是否填写正确；飞书和钉钉的签名算法不同，请确认选对了平台类型 |
 
@@ -657,7 +664,7 @@ flowchart TD
 
 ### 9.1 支持的 AI 助手
 
-Agent Pulse 支持 6 种 AI 编程助手，**可以同时安装多个**，互不干扰：
+Agent Pulse 支持 9 种 AI 编程助手，**可以同时安装多个**，互不干扰：
 
 | 助手 | 配置页标签 |
 | --- | --- |
@@ -668,6 +675,8 @@ Agent Pulse 支持 6 种 AI 编程助手，**可以同时安装多个**，互不
 | Cursor | `cursor` |
 | Copilot | `copilot` |
 | Trae | `trae` |
+| OpenClaw | `openclaw` |
+| Qoder | `qoder` |
 
 ### 9.2 每个助手独立配置
 
