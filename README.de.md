@@ -4,11 +4,11 @@
 
 **Agent Pulse** ist eine Desktop-Ambient-Lampe, die ihre Farbe je nach Status deines KI-Coding-Assistenten ändert. Du musst nicht mehr das Terminal anstarren – ein Blick auf die Lampe sagt dir, ob eine Aufgabe „läuft“, „fertig“ oder „Fehler“ ist.
 
-- **Aktuelle Software-Version**: 0.4.8
-- **Firmware-Version der eingebauten Hardware-Lampe**: `0.1.24+25`
+- **Aktuelle Software-Version**: 0.5.1
+- **Firmware-Version der eingebauten Hardware-Lampe**: `0.2.0+26`
 - **Versionsverlauf**: siehe [CHANGELOG.md](CHANGELOG.md)
 
-**Unterstützte KI-Coding-Assistenten**: Claude Code · Codex · WorkBuddy · CodeBuddy · Cursor · Copilot · Trae
+**Unterstützte KI-Coding-Assistenten**: Claude Code · Codex · WorkBuddy · CodeBuddy · Cursor · Copilot · Trae · OpenClaw
 
 ### Wie funktioniert es?
 
@@ -59,8 +59,8 @@ Beim ersten Mal diese 4 Schritte nacheinander ausführen, dann siehst du die Lam
 
 | System | Download | Installationsmethode |
 | --- | --- | --- |
-| Windows 10 1809+ / 11 | **[`AgentPulseSetup-0.4.8.exe` herunterladen](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | Doppelklick zum Installieren; startet nach der Installation automatisch |
-| macOS (Apple Silicon / Intel) | **[`AgentPulse-0.4.8.pkg` herunterladen](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | Doppelklick und dem Assistenten folgen |
+| Windows 10 1809+ / 11 | **[`AgentPulseSetup-0.5.1.exe` herunterladen](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | Doppelklick zum Installieren; startet nach der Installation automatisch |
+| macOS (Apple Silicon / Intel) | **[`AgentPulse-0.5.1.pkg` herunterladen](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)** | Doppelklick und dem Assistenten folgen |
 | Ubuntu (nur Collector) | **[Collector herunterladen](https://gitee.com/lzty634158/agent-pulse-linux-collector-release)** | Siehe [Ubuntu Collector](#34-ubuntu-collector-optional) |
 
 > **Download in China langsam?** Nutze den Gitee-Mirror (identischer Inhalt wie GitHub):
@@ -158,7 +158,7 @@ Neben der Farbe kannst du den **Anzeigemodus** der Lampe einstellen:
 
 ### 3.1 Windows-Installer
 
-**[`AgentPulseSetup-0.4.8.exe` herunterladen](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, Doppelklick zum Ausführen und den Anweisungen folgen.
+**[`AgentPulseSetup-0.5.1.exe` herunterladen](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, Doppelklick zum Ausführen und den Anweisungen folgen.
 
 > Nutzer in China können Gitee nutzen: <https://gitee.com/lzty634158/agent-pulse-release/releases>
 
@@ -170,7 +170,7 @@ Neben der Farbe kannst du den **Anzeigemodus** der Lampe einstellen:
 
 ### 3.2 macOS-Installer
 
-**[`AgentPulse-0.4.8.pkg` herunterladen](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, Doppelklick und dem Installationsassistenten folgen. Oder per KI-Prompt installieren — die KI-Prompt-Methode wird empfohlen; bei Fehlern einfach den Fehler an die KI senden.
+**[`AgentPulse-0.5.1.pkg` herunterladen](https://github.com/lzty634158-oss/agent-pulse-release/releases/latest)**, Doppelklick und dem Installationsassistenten folgen. Oder per KI-Prompt installieren — die KI-Prompt-Methode wird empfohlen; bei Fehlern einfach den Fehler an die KI senden.
 
 > Nutzer in China können Gitee nutzen (Windows / macOS): <https://gitee.com/lzty634158/agent-pulse-release/releases>
 > Separates macOS-Repo: <https://gitee.com/lzty634158/agent-pulse-macos-release>
@@ -419,6 +419,7 @@ Dies ist der am häufigsten genutzte Teil — du kannst **für jedes einzelne Er
 | **Cursor** | Sitzungsbeginn, Prompt senden, vor/nach Werkzeug, Werkzeug fehlgeschlagen, Berechtigung anfordern, Benachrichtigung, Aufgabe fehlgeschlagen, Aufgabe fertig |
 | **Copilot** | Sitzungsbeginn, Prompt senden, nach Werkzeug, Aufgabe fertig, Fehler aufgetreten, Sitzungsende |
 | **Trae** | Sitzungsbeginn, Prompt senden, vor/nach Werkzeug, Berechtigung anfordern, Benachrichtigung, Aufgabe fertig |
+| **OpenClaw** | Sitzungsbeginn, Prompt senden, Aufgabe fertig, Sitzungsende |
 
 > Die Konfigurationsseite zeigt nur die Ereignisse, **die dein aktueller Assistent tatsächlich auslöst**, damit du keine nie auftretenden Ereignisse konfigurierst.
 
@@ -646,8 +647,8 @@ Die Konfigurationsseite bietet zwei Fehlerbehebungswerkzeuge:
 | --- | --- |
 | **Test sendet, aber echte Ereignisse pushen nicht** | Fast immer einer von zwei Gründen: <br>① Der „Aktiviert“-Haken des Kanals fehlt (bei neuen Kanälen bitte setzen) <br>② Ereignisabonnement nicht korrekt angekreuzt (siehe [8.3](#83-ereignisabonnement-wichtigster-schritt)). „Push simulieren“ findet es sofort |
 | **Nach Speichern und Aktualisieren springt Oberfläche auf Englisch zurück** | Behoben (0.4.6). Bei alten Versionen `?lang=de` in der Adresszeile für die Konfigurationsseite anhängen |
-| **Push simulieren zeigt „Simulation fehlgeschlagen“** | Anfrage hat das neue Backend nicht erreicht. Bitte **Agent Pulse neu starten** (Tray-Symbol vollständig beenden dann starten) und sicherstellen, dass 0.4.8 läuft |
-| **Test/Löschen/Simulieren-Buttons reagieren nicht** | Auf 0.4.8 aktualisieren; alte Versionen haben ein UI-Script-Problem |
+| **Push simulieren zeigt „Simulation fehlgeschlagen“** | Anfrage hat das neue Backend nicht erreicht. Bitte **Agent Pulse neu starten** (Tray-Symbol vollständig beenden dann starten) und sicherstellen, dass 0.5.1 läuft |
+| **Test/Löschen/Simulieren-Buttons reagieren nicht** | Auf 0.5.1 aktualisieren; alte Versionen haben ein UI-Script-Problem |
 | **Hinweis URL ungültig** | Webhook-Adresse muss mit `https://` beginnen |
 | **Feishu/DingTalk empfangen nichts** | Prüfe, ob Secret korrekt ist; Feishu und DingTalk nutzen unterschiedliche Signaturalgorithmen, stelle sicher, dass der Plattformtyp stimmt |
 
@@ -668,6 +669,7 @@ Agent Pulse unterstützt 6 KI-Coding-Assistenten und du kannst **mehrere gleichz
 | Cursor | `cursor` |
 | Copilot | `copilot` |
 | Trae | `trae` |
+| OpenClaw | `openclaw` |
 
 ### 9.2 Unabhängige Konfiguration pro Assistent
 
